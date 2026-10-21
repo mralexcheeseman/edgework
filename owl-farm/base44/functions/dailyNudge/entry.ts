@@ -51,6 +51,18 @@ function streakFrom(days, today, doneToday) {
   return n;
 }
 
+// Telegram: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID secrets. Messages use Telegram's HTML subset.
+async function telegram(method, body) {
+  const token = Deno.env.get('TELEGRAM_BOT_TOKEN');
+  if (!token) return { ok: false, description: 'No TELEGRAM_BOT_TOKEN secret.' };
+  const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body || {}),
+  });
+  return res.json();
+}
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 function row(done, label, minutes, href, how) {
@@ -77,6 +89,18 @@ export default async function (req) {
     }
     const key = Deno.env.get('OWL_WIRE_KEY');
     if (!admin && !(key && payload?.key === key)) return Response.json({ error: 'Forbidden' }, { status: 403 });
+
+    // Setup: after Alex messages the bot, list the chats it has seen so TELEGRAM_CHAT_ID can be set.
+    if (payload?.telegram_setup) {
+      const updates = await telegram('getUpdates', {});
+      const chats = new Map();
+      for (const u of updates?.result || []) {
+        const chat = u.message?.chat;
+        if (chat?.type === 'private') chats.set(chat.id, [chat.first_name, chat.last_name, chat.username && `@${chat.username}`].filter(Boolean).join(' '));
+      }
+      const me = await telegram('getMe', {});
+      return Response.json({ bot: me?.result?.username || null, ok: updates?.ok, error: updates?.description, chats: [...chats].map(([id, name]) => ({ id, name })) });
+    }
 
     const db = base44.asServiceRole.entities;
     const now = new Date();
@@ -161,13 +185,43 @@ ${friday}
 </div>`;
 
     const subject = subjects[slot];
-    if (payload?.dry) return Response.json({ sent: false, dry: true, slot, subject, body, wire, desk, typewriter, streak, waiting });
+
+    const tgRow = (done, label, minutes, href) => (done ? `✅ <s>${esc(label)}</s>` : `⬜ <a href="${href}"><b>${esc(label)}</b></a> (${minutes})`);
+    const tgLines = [
+      `<b>${esc(subject)}</b>`,
+      esc(intros[slot]),
+      ...(filedRecently === 0 ? [`⚠️ The Wire hasn't filed anything in 48 hours. <a href="${LINKS.wire}">Run the wire now</a>.`] : []),
+      '',
+      tgRow(wire, '1. The Wire', '5 min', LINKS.wire),
+      tgRow(desk, '2. The Desk', '7 min', LINKS.desk),
+      tgRow(typewriter, '3. The Typewriter', '3 min', LINKS.typewriter),
+      ...(isFriday
+        ? ['', '<b>Friday</b>', tgRow(longPiece, 'One longer piece', '15 min', LINKS.desk), tgRow(cutUp, 'Cut-up', '5 min', LINKS.cutup), tgRow(false, 'Publish to Edgework', '5 min', LINKS.edgework), tgRow(false, 'Positions', '5 min', LINKS.ledger)]
+        : []),
+      '',
+      `<i>${esc(streakLine)}</i>`,
+    ];
+    const tgText = tgLines.join('\n');
+
+    if (payload?.dry) return Response.json({ sent: false, dry: true, slot, subject, body, tgText, wire, desk, typewriter, streak, waiting });
+
+    // Telegram first; a failure there must never stop the email.
+    let telegramStatus = 'not set up';
+    const chatId = Deno.env.get('TELEGRAM_CHAT_ID');
+    if (chatId && Deno.env.get('TELEGRAM_BOT_TOKEN')) {
+      try {
+        const r = await telegram('sendMessage', { chat_id: chatId, text: tgText, parse_mode: 'HTML', disable_web_page_preview: true });
+        telegramStatus = r?.ok ? 'sent' : `failed: ${r?.description}`;
+      } catch (err) {
+        telegramStatus = `failed: ${err.message}`;
+      }
+    }
 
     const to = Deno.env.get('NUDGE_EMAIL') || admin?.email;
     if (!to) return Response.json({ error: 'Set the NUDGE_EMAIL secret.' }, { status: 500 });
 
     await base44.asServiceRole.integrations.Core.SendEmail({ to, subject, body, from_name: 'Owl Farm' });
-    return Response.json({ sent: true, slot, subject, open, streak });
+    return Response.json({ sent: true, telegram: telegramStatus, slot, subject, open, streak });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }

@@ -19,6 +19,17 @@ What we learned building Owl Farm and the Edgework site (Oct 2026), written so t
 - **Write the "why" to the person.** Collision reasons addressed to "you" read far better than third-person summaries.
 - Check feeds with `check-feeds.mjs` before adding a thinker: many big names have no feed, a paywalled one, or haven't posted in years (see `sources.md`).
 
+## Writing quality
+
+- **Feed the model the writer, not a description of the writer.** Drafts got better when the prompt carried a fingerprint of Alex's voice plus three short passages of his real writing (`voice.md`), not adjectives like "punchy".
+- **Borrow moves, never sentences.** Studying the thinkers we follow (and Cole Schafer for personality) gave a list of techniques per writer and six "flourish" moves; a draft uses two or three (`craft-playbook.md`). The prompt forbids imitating any named writer.
+- **Give each format a recipe.** A Dispatch, Routine or Essay gets a numbered structure (scene, jab, reframe, evidence, callback). Free-form prompts produced throat-clearing openings.
+- **Write, then edit, in two passes.** A writer pass picks an angle, an enemy and an opening; an editor pass scores ten checks and rewrites what fails. In A/B tests the two-pass drafts opened on concrete scenes and ended on callbacks; the one-pass drafts opened on abstractions. The editor also cut claims that weren't in the material on its own.
+- **Short formats need options, not one shot.** The Hey Rube improved least, so the editor now returns three alternative lines and the Desk lets Alex tap one in.
+- **Check the machine's honesty in code.** A filter replaces dashes and US spellings; any quote of 25+ characters not found word for word in the material is flagged on the Desk.
+- **Cost:** drafts run on Claude Opus 5.5 through Base44's `InvokeLLM` (Base44 credits, no API key), about a minute per draft.
+- **Shared feeds need the page's byline.** Collab Fund's feed has no author fields, so Housel never matched. The Wire now reads `<meta name="author">` on the article page. A plain text search for the name is useless: every page lists him in the sidebar.
+
 ## Design
 
 - **Photographic marks, not drawn ones.** "Photo realistic, not stock" was the brief. Stains were generated as flatbed scans on white paper (Recraft), then the paper was removed by un-multiplying against a local estimate of the paper colour (48 px grid, MaxFilter 7, alpha threshold 0.10, edge feather). Tape needed real background removal instead. The scripts are in `tools/` and `owl-farm/scripts/`; the library's master copy is in the design repo.

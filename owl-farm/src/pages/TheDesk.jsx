@@ -47,6 +47,7 @@ export default function TheDesk() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [draft, setDraft] = useState(null);
+  const [notes, setNotes] = useState(null);
 
   useEffect(() => {
     load();
@@ -125,6 +126,7 @@ export default function TheDesk() {
       if (source.core_claim) parts.push(`CORE CLAIM: ${source.core_claim}`);
       if (source.highlights?.length) parts.push(`LINES ALEX HIGHLIGHTED FROM THE PIECE:\n${source.highlights.map((h) => `- "${h}"`).join('\n')}`);
       else if (source.quote) parts.push(`A LINE FROM THE PIECE: "${source.quote}"`);
+      if (source.lines?.length) parts.push(`OTHER LINES FROM THE PIECE (exact quotes):\n${source.lines.map((h) => `- "${h}"`).join('\n')}`);
     }
     return parts.join('\n\n');
   };
@@ -164,6 +166,7 @@ export default function TheDesk() {
       };
       if (spark) payload.spark = spark.id;
       if (collision) payload.collision = collision.id;
+      setNotes({ alternatives: data.alternatives || [], warnings: data.warnings || [], biggest_fix: data.biggest_fix || '' });
       setDraft(await base44.entities.Draft.create(payload));
       setTimeout(() => document.getElementById('the-draft')?.scrollIntoView({ behavior: 'smooth' }), 100);
     } catch (err) {
@@ -300,14 +303,14 @@ export default function TheDesk() {
 
           {error && <p className="ew-type text-[#c4211a]">{error}</p>}
           <button className={buttonRed} disabled={busy || !reaction.trim()} onClick={generate}>
-            {busy ? 'Drafting…' : reaction.trim() ? 'Write the draft' : 'Say what you think first (step 3)'}
+            {busy ? 'Drafting, then editing… (about a minute)' : reaction.trim() ? 'Write the draft' : 'Say what you think first (step 3)'}
           </button>
         </Step>
       )}
 
       {draft && (
         <div id="the-draft">
-          <DraftEditor draft={draft} />
+          <DraftEditor key={draft.id} draft={draft} notes={notes} />
         </div>
       )}
 

@@ -40,7 +40,7 @@ One collision goes to the Desk each day. Empty wire? **Run the wire now**, or **
 3. **What do you think?** A sentence or two, the way you'd say it across a table. Stuck? Do you agree, or is it wrong? What has your industry got wrong? Where have you seen it happen?
 4. **What shape should it take?** Hey Rube (≤25 words, the busy-day default), Dispatch (250–400), Routine (60–90 s script), Expense report (4–6 items and a total), Essay (800–1,200, Fridays).
 5. **Lenses** are optional: add a contrast thinker with **Choose another…**.
-6. **Write the draft**, then edit title, deck, pull line (`*asterisks*` mark the highlight) and body.
+6. **Write the draft** (about a minute: a writer pass, then an editor pass). Read the editor's note and any red quote warnings, tap one of the **Other lines the editor tried** if it beats the pull, then edit title, deck, pull line (`*asterisks*` mark the highlight) and body.
 
 Edit until it sounds like you: a clear enemy, why it matters now, one repeatable line, UK English, no em dashes, never "Not X, but Y". Check every quote and fact against the original.
 

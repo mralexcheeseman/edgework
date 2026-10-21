@@ -126,10 +126,25 @@ export default async function (req) {
       try {
         const res = await fetch(thinker.feed_url, { headers: { 'User-Agent': 'OwlFarm/1.0 (+private reader)' } });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const entries = parseFeed(await res.text())
-          .filter((e) => e.title && e.url && (!e.published || isNaN(e.published) || e.published.getTime() >= since))
-          .filter((e) => !thinker.feed_author || e.author.toLowerCase().includes(thinker.feed_author.toLowerCase()))
-          .slice(0, MAX_PER_FEED);
+        const recent = parseFeed(await res.text())
+          .filter((e) => e.title && e.url && (!e.published || isNaN(e.published) || e.published.getTime() >= since));
+        // Shared feeds (Collab Fund) carry several writers. When the feed has no author
+        // field, read the page's <meta name="author"> byline instead (a plain text match
+        // is useless: every Collab Fund page names Housel in its sidebar).
+        const entries = [];
+        let bylineChecks = 0;
+        for (const e of recent) {
+          if (entries.length >= MAX_PER_FEED) break;
+          const want = (thinker.feed_author || '').toLowerCase();
+          if (!want || e.author.toLowerCase().includes(want)) { entries.push(e); continue; }
+          if (e.author || bylineChecks >= 12) continue;
+          bylineChecks += 1;
+          try {
+            const page = await fetch(e.url, { headers: { 'User-Agent': 'OwlFarm/1.0 (+private reader)' } });
+            const byline = page.ok ? ((await page.text()).match(/<meta\s+name="author"\s+content="([^"]*)"/i)?.[1] || '') : '';
+            if (byline.toLowerCase().includes(want)) entries.push(e);
+          } catch (_) { /* skip pages that won't load */ }
+        }
         for (const entry of entries) {
           if (fresh.length >= MAX_SOURCES) break;
           const seen = items(await db.SourceItem.filter({ url: entry.url }, { limit: 1 }));

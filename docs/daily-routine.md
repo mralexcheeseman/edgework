@@ -22,6 +22,21 @@ About 15 minutes a day, plus 30 minutes on Fridays. Also in Google Docs: [Edgewo
 
 At 6am the Wire reads new, free-to-read pieces from your thinkers and checks each against your Positions. Where a piece supports, challenges or extends one, it files a **collision**. You keep or kill them and say in one line what you think. The Desk turns your line into a draft in the shape you choose; the Typewriter turns the draft into a stained, typewritten card or reel. The machine supplies the accident, you supply the argument.
 
+## Reminders
+
+You can't miss a day without being told. Owl Farm checks its own records and emails you:
+
+| Time (London) | Email | When |
+| --- | --- | --- |
+| 07:30 | Today's three steps, with links, how many collisions are waiting, and your streak | Every day |
+| 12:30 | "Not started yet" or "1 of 3 done, next: …" | Only if a step is open |
+| 18:30 | "Still to do: …" | Only if a step is open |
+| 21:30 | "Last call today" | Only if a step is open |
+
+A step counts as done when Owl Farm sees it: a collision kept or killed (the Wire), a draft written (the Desk), a card exported or a draft marked published (the Typewriter). Once all three are done, the emails stop for the day. On Fridays the emails add the weekly list, and the longer piece counts as an open step. If the Wire has filed nothing in 48 hours, the email says so.
+
+Two calendar events are a backstop that doesn't depend on Owl Farm: the 07:30 routine and a 21:45 "card out today?" popup. If you get the 21:45 popup but had no emails that day, the reminders have broken: ask Claude to check the "The daily nudge" workflow and the `dailyNudge` function logs.
+
 ## Every day
 
 ### 1. The Wire (5 min)

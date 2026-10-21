@@ -29,6 +29,8 @@ What we learned building Owl Farm and the Edgework site (Oct 2026), written so t
 - **Check the machine's honesty in code.** A filter replaces dashes and US spellings; any quote of 25+ characters not found word for word in the material is flagged on the Desk.
 - **Cost:** drafts run on Claude Opus 5.5 through Base44's `InvokeLLM` (Base44 credits, no API key), about a minute per draft.
 - **Shared feeds need the page's byline.** Collab Fund's feed has no author fields, so Housel never matched. The Wire now reads `<meta name="author">` on the article page. A plain text search for the name is useless: every page lists him in the sidebar.
+- **Remind from the data, not the clock.** A plain calendar reminder can't tell whether the work happened. The `dailyNudge` function reads Owl Farm's own records (collisions, drafts, cards) and only nags about what's still open, then goes quiet. A calendar popup at 21:45 is the backstop in case the emails themselves fail.
+- **Watch where reminder emails land.** Gmail filed Base44's emails under Updates; move one to Primary so the rest follow.
 
 ## Design
 

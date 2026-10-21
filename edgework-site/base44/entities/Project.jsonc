@@ -1,0 +1,69 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "order": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "line": {
+      "type": "string",
+      "description": "One-line positioning"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status_note": {
+      "type": "string",
+      "description": "Honest status, e.g. 'Collection preview'"
+    },
+    "url": {
+      "type": "string",
+      "description": "Public link, only once confirmed"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "draft"
+      ],
+      "default": "draft",
+      "description": "Only published records are visible to the public"
+    }
+  },
+  "required": [
+    "name",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.status": "published"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

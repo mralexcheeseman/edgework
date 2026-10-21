@@ -1,0 +1,81 @@
+{
+  "name": "Draft",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "enum": [
+        "dispatch",
+        "hey_rube",
+        "expense_report",
+        "essay",
+        "routine"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "deck": {
+      "type": "string",
+      "description": "One-sentence standfirst under the title"
+    },
+    "pull": {
+      "type": "string",
+      "description": "The line worth repeating; *asterisks* mark the phrase to highlight on cards"
+    },
+    "reaction": {
+      "type": "string"
+    },
+    "lenses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "drafted",
+        "edited",
+        "exported",
+        "published"
+      ],
+      "default": "idea"
+    },
+    "spark": {
+      "type": "string"
+    },
+    "collision": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "format"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

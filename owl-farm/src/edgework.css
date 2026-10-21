@@ -1,0 +1,168 @@
+/* Edgework design system: manuscript paper, typewriter ink, red pen. */
+@font-face {
+  font-family: 'TT2020';
+  src: url('/fonts/TT2020StyleG-ASCII.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT2020E';
+  src: url('/fonts/TT2020StyleE.woff2') format('woff2');
+  font-display: swap;
+}
+
+:root {
+  --ew-paper: #f1ebdd;
+  --ew-sheet: #fbf8f0;
+  --ew-ink: #121110;
+  --ew-ink-soft: #4a4640;
+  --ew-red: #c4211a;
+  --ew-coffee: #8a6a3b;
+  --ew-type: 'TT2020', 'TT2020E', 'Courier Prime', monospace;
+  --ew-label: 'Courier Prime', monospace;
+  --ew-shout: 'Anton', 'Impact', sans-serif;
+  --ew-scrawl: 'Rock Salt', cursive;
+}
+
+html, body {
+  background: #e9e2d2 url('/marks/paper-45.jpg') center / cover fixed;
+  color: var(--ew-ink);
+  font-family: var(--ew-label);
+}
+
+.ew-type {
+  font-family: var(--ew-type);
+  font-feature-settings: 'calt' 1;
+}
+
+.ew-shout {
+  font-family: var(--ew-shout);
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+}
+
+.ew-lp {
+  -webkit-mask-image: url('/marks/letterpress-mask.png');
+  mask-image: url('/marks/letterpress-mask.png');
+  -webkit-mask-size: 420px auto;
+  mask-size: 420px auto;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+.ew-scrawl {
+  font-family: var(--ew-scrawl);
+  color: var(--ew-red);
+}
+
+.ew-label {
+  font-family: var(--ew-label);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ew-sheet {
+  position: relative;
+  background: var(--ew-sheet);
+  box-shadow: 0 1px 0 rgba(18, 17, 16, 0.08), 0 14px 28px -16px rgba(40, 30, 10, 0.45);
+}
+
+.ew-hl {
+  background: url('/marks/highlight-1.webp') center 60% / 100% 112% no-repeat;
+  padding: 0 0.2em;
+}
+
+.ew-btn {
+  font-family: var(--ew-label);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 2px solid var(--ew-ink);
+  background: transparent;
+  color: var(--ew-ink);
+  transition: background 120ms, color 120ms;
+}
+.ew-btn:hover:not(:disabled) {
+  background: var(--ew-ink);
+  color: var(--ew-sheet);
+}
+.ew-btn:disabled {
+  opacity: 0.45;
+}
+.ew-btn-red {
+  border-color: var(--ew-red);
+  color: var(--ew-red);
+}
+.ew-btn-red:hover:not(:disabled) {
+  background: var(--ew-red);
+  color: var(--ew-sheet);
+}
+
+.ew-btn-light {
+  border-color: var(--ew-paper);
+  color: var(--ew-paper);
+}
+.ew-btn-light:hover:not(:disabled) {
+  background: var(--ew-paper);
+  color: var(--ew-ink);
+}
+
+.ew-field {
+  width: 100%;
+  font-family: var(--ew-type);
+  font-feature-settings: 'calt' 1;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--ew-ink);
+  padding: 0.4rem 0.1rem;
+  color: var(--ew-ink);
+}
+.ew-field:focus {
+  outline: none;
+  border-bottom-color: var(--ew-red);
+}
+textarea.ew-field {
+  border: 2px solid var(--ew-ink);
+  padding: 0.6rem 0.7rem;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.ew-nav a {
+  font-family: var(--ew-label);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.1rem;
+  border-bottom: 2px solid transparent;
+}
+.ew-nav a.active {
+  color: var(--ew-red);
+  border-bottom-color: var(--ew-red);
+}
+
+.ew-strip {
+  display: inline-block;
+  background: var(--ew-sheet);
+  padding: 0.5rem 0.8rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.28);
+}
+
+@keyframes ew-blink {
+  50% { opacity: 0; }
+}
+.ew-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--ew-ink);
+  vertical-align: -0.12em;
+  animation: ew-blink 1s steps(1) infinite;
+}

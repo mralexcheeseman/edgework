@@ -1,0 +1,80 @@
+{
+  "name": "Dispatch",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "dispatch",
+        "hey_rube",
+        "routine",
+        "expense_report",
+        "essay"
+      ],
+      "default": "dispatch"
+    },
+    "title": {
+      "type": "string"
+    },
+    "deck": {
+      "type": "string"
+    },
+    "pull": {
+      "type": "string",
+      "description": "The line worth repeating; *asterisks* mark the highlighted phrase"
+    },
+    "body": {
+      "type": "string"
+    },
+    "published_on": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "draft"
+      ],
+      "default": "draft",
+      "description": "Only published records are visible to the public"
+    }
+  },
+  "required": [
+    "slug",
+    "title",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.status": "published"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Collision",
+  "type": "object",
+  "properties": {
+    "source_item": {
+      "type": "string"
+    },
+    "position": {
+      "type": "string"
+    },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "supports",
+        "challenges",
+        "extends"
+      ]
+    },
+    "why": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "kept",
+        "killed"
+      ],
+      "default": "new"
+    },
+    "reaction": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_item",
+    "position",
+    "relation"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

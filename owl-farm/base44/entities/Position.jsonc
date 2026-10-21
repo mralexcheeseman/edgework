@@ -1,0 +1,68 @@
+{
+  "name": "Position",
+  "type": "object",
+  "properties": {
+    "number": {
+      "type": "number"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "arena": {
+      "type": "string",
+      "enum": [
+        "marketing-machine",
+        "ai-work",
+        "judgement"
+      ]
+    },
+    "source_essay": {
+      "type": "string"
+    },
+    "conviction": {
+      "type": "number",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "default": 3
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "keep",
+        "edit"
+      ],
+      "default": "keep"
+    }
+  },
+  "required": [
+    "number",
+    "statement"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

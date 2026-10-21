@@ -1,0 +1,111 @@
+/* Edgework design system (mralexcheeseman/design, brands/edgework). Values mirror tokens.json. */
+@font-face { font-family: 'TT2020'; src: url('/fonts/TT2020StyleG-ASCII.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'TT2020E'; src: url('/fonts/TT2020StyleE.woff2') format('woff2'); font-display: swap; }
+
+:root {
+  --paper: #f1ebdd;
+  --sheet: #fbf8f0;
+  --ink: #121110;
+  --ink-2: #4a4640;
+  --ink-3: #6b655b;
+  --line: #d9d0bd;
+  --line-strong: #8a8170;
+  --red: #c4211a;
+  --red-night: #ff5a4e;
+  --night: #121110;
+  --on-night: #f3efe6;
+  --on-night-2: #bdb6a8;
+  --font-type: 'TT2020', 'TT2020E', 'Courier Prime', monospace;
+  --font-shout: 'Anton', Impact, sans-serif;
+  --font-label: 'Courier Prime', 'Courier New', monospace;
+  --font-scrawl: 'Rock Salt', cursive;
+  --shadow-sheet: 0 1px 0 rgba(18, 17, 16, .08), 0 14px 28px -16px rgba(40, 30, 10, .45);
+  --shadow-lifted: 0 2px 0 rgba(18, 17, 16, .06), 0 30px 50px -22px rgba(40, 30, 10, .55);
+  --shadow-strip: 0 3px 8px rgba(0, 0, 0, .28);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ease-drop: cubic-bezier(.3, 1.4, .5, 1);
+  --measure: 68ch;
+}
+
+html { background: var(--paper); }
+body {
+  margin: 0;
+  background: var(--paper) url('/marks/paper-45.jpg') center / cover fixed;
+  color: var(--ink);
+  font-family: var(--font-label);
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--red); color: var(--sheet); }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+.ew-night :focus-visible { outline-color: var(--red-night); }
+
+.ew-type { font-family: var(--font-type); font-feature-settings: 'calt' 1; }
+.ew-shout { font-family: var(--font-shout); text-transform: uppercase; line-height: .9; letter-spacing: .005em; font-weight: 400; }
+.ew-lp {
+  -webkit-mask-image: url('/marks/letterpress-mask.png'); mask-image: url('/marks/letterpress-mask.png');
+  -webkit-mask-size: 420px auto; mask-size: 420px auto;
+}
+.ew-label { font-family: var(--font-label); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; line-height: 1.4; }
+.ew-ui { font-family: var(--font-label); font-size: 15px; line-height: 1.6; }
+.ew-scrawl { font-family: var(--font-scrawl); color: var(--red); display: inline-block; transform: rotate(-5deg); line-height: 1.3; }
+.ew-night .ew-scrawl { color: var(--red-night); }
+
+.ew-night { background: var(--night); color: var(--on-night); }
+.ew-sheet { position: relative; background: var(--sheet); box-shadow: var(--shadow-sheet); }
+.ew-night .ew-hl { background: none; color: var(--red-night); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .22em; }
+.ew-hl { background: url('/marks/highlight-1.webp') center 60% / 100% 112% no-repeat; padding: 0 .18em; margin: 0 -.06em; }
+.ew-mark { position: absolute; pointer-events: none; mix-blend-mode: multiply; z-index: 1; height: auto; user-select: none; }
+.ew-tape { position: absolute; pointer-events: none; z-index: 3; height: auto; user-select: none; }
+.ew-above { position: relative; z-index: 2; }
+
+/* Index card */
+.ew-card {
+  position: relative; background-color: var(--sheet); box-shadow: var(--shadow-sheet);
+  background-image: repeating-linear-gradient(transparent 0 35px, var(--line) 35px 36px);
+  background-position: 0 70px;
+}
+.ew-card::before { content: ''; position: absolute; left: 0; right: 0; top: 62px; border-top: 2px solid rgba(196, 33, 26, .5); z-index: 1; }
+
+/* Buttons and links */
+.ew-btn {
+  font: 700 13px/1 var(--font-label); letter-spacing: .12em; text-transform: uppercase;
+  min-height: 44px; padding: 0 18px; border: 2px solid var(--ink); background: transparent; color: var(--ink);
+  cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  transition: background 120ms, color 120ms;
+}
+.ew-btn:hover { background: var(--ink); color: var(--sheet); }
+.ew-btn-red { border-color: var(--red); color: var(--red); }
+.ew-btn-red:hover { background: var(--red); color: var(--sheet); }
+.ew-night .ew-btn { border-color: var(--on-night); color: var(--on-night); }
+.ew-night .ew-btn:hover { background: var(--on-night); color: var(--ink); }
+.ew-night .ew-btn-red { border-color: var(--red-night); color: var(--red-night); }
+.ew-night .ew-btn-red:hover { background: var(--red-night); color: var(--ink); }
+.ew-link { color: inherit; text-decoration: none; border-bottom: 2px solid var(--red); }
+.ew-night .ew-link { border-bottom-color: var(--red-night); }
+
+.ew-chip {
+  font: 700 12px/1 var(--font-label); letter-spacing: .14em; text-transform: uppercase;
+  min-height: 40px; padding: 0 14px; border: 2px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer;
+}
+.ew-chip[aria-pressed='true'] { background: var(--ink); color: var(--sheet); }
+
+@keyframes ew-blink { 50% { opacity: 0; } }
+.ew-cursor { display: inline-block; width: .5em; height: .85em; background: currentColor; vertical-align: -.05em; margin-left: .06em; animation: ew-blink 1s steps(1) infinite; }
+
+@keyframes ew-drop { from { opacity: 0; transform: translateY(-40px) rotate(var(--r0, -6deg)) scale(1.04); } to { opacity: 1; transform: translateY(0) rotate(var(--r, 0deg)) scale(1); } }
+.ew-drop { animation: ew-drop .7s var(--ease-drop) backwards; animation-delay: var(--d, 0s); }
+
+/* Paper that lifts flat when picked up */
+.ew-tilt { transform: rotate(var(--r, 0deg)); transition: transform 260ms var(--ease), box-shadow 260ms var(--ease); }
+.ew-tilt:hover, .ew-tilt:focus-visible { transform: translateY(-6px) rotate(0deg); box-shadow: var(--shadow-lifted); }
+
+/* Hairline ruled paper for long reading */
+.ew-ruled { background-image: repeating-linear-gradient(transparent 0 31px, var(--line) 31px 32px); }
+
+@media (max-width: 640px) {
+  .ew-card::before { top: 54px; }
+  .ew-card { background-position: 0 62px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

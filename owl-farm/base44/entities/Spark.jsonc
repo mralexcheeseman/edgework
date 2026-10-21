@@ -1,0 +1,49 @@
+{
+  "name": "Spark",
+  "type": "object",
+  "properties": {
+    "body": {
+      "type": "string"
+    },
+    "tag": {
+      "type": "string"
+    },
+    "origin": {
+      "type": "string",
+      "enum": [
+        "own",
+        "cut-up",
+        "collision"
+      ],
+      "default": "own"
+    },
+    "source": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "body"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

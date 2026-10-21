@@ -1,0 +1,46 @@
+{
+  "name": "Asset",
+  "type": "object",
+  "properties": {
+    "draft": {
+      "type": "string"
+    },
+    "template": {
+      "type": "string"
+    },
+    "mark_mix": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "draft"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "SourceItem",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "thinker": {
+      "type": "string"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "core_claim": {
+      "type": "string"
+    },
+    "quote": {
+      "type": "string"
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Sentences from the piece suggested as worth highlighting"
+    },
+    "highlights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lines Alex ticked or pasted from the piece"
+    },
+    "read_full": {
+      "type": "boolean",
+      "description": "True once the full article (not just the feed excerpt) has been read"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

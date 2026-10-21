@@ -1,0 +1,76 @@
+{
+  "name": "Thinker",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "cluster": {
+      "type": "string"
+    },
+    "tier": {
+      "type": "number",
+      "enum": [
+        1,
+        2,
+        3
+      ],
+      "default": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "website": {
+      "type": "string"
+    },
+    "newsletter": {
+      "type": "string"
+    },
+    "feed_url": {
+      "type": "string"
+    },
+    "feed_author": {
+      "type": "string",
+      "description": "Only take feed items by this author (for shared feeds)"
+    },
+    "feed_note": {
+      "type": "string",
+      "description": "Whether the source is free to read, mixed or paywalled"
+    },
+    "core_position": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

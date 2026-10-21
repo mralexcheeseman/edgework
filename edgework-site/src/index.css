@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 16 100% 50%;
+    --primary-foreground: 0 0% 7%;
+    --secondary: 44 32% 87%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 40 6% 62%;
+    --accent: 44 32% 87%;
+    --accent-foreground: 0 0% 7%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 16 100% 50%;
+    --radius: 0.25rem;
+    --font-heading: 'Alfa Slab One', 'Times New Roman', serif;
+    --font-body: 'Courier Prime', 'Courier New', monospace;
+    --font-display: 'Alfa Slab One', 'Times New Roman', serif;
+    --font-mono: 'Courier Prime', 'Courier New', monospace;
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 16 100% 50%;
+    --sidebar-primary-foreground: 0 0% 7%;
+    --sidebar-accent: 0 0% 14%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 16 100% 50%;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 16 100% 50%;
+    --primary-foreground: 0 0% 7%;
+    --secondary: 44 32% 87%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 40 6% 62%;
+    --accent: 44 32% 87%;
+    --accent-foreground: 0 0% 7%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 16 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background font-body text-foreground;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #ff4500;
+    color: #121212;
+  }
+
+  :focus-visible {
+    outline: 2px solid #ff4500;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Fine printer's grain, laid over the whole desk. */
+  .grain-layer {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  .ruled-lines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 30px,
+      rgba(31, 44, 58, 0.26) 30px 31px
+    );
+  }
+
+  .stain-a {
+    background-image:
+      radial-gradient(circle at 82% 14%, rgba(120, 78, 32, 0.26) 0 6%, rgba(120, 78, 32, 0.1) 6% 9%, transparent 10%),
+      radial-gradient(circle at 18% 88%, rgba(120, 78, 32, 0.18) 0 10%, transparent 11%);
+  }
+
+  .stain-b {
+    background-image:
+      radial-gradient(circle at 88% 78%, transparent 0 7%, rgba(96, 60, 24, 0.22) 7% 8.6%, transparent 9.6%),
+      radial-gradient(circle at 12% 22%, rgba(96, 60, 24, 0.16) 0 5%, transparent 6%);
+  }
+
+  .stain-c {
+    background-image:
+      radial-gradient(circle at 30% 12%, rgba(120, 78, 32, 0.22) 0 7%, transparent 8%),
+      radial-gradient(circle at 74% 86%, transparent 0 6%, rgba(96, 60, 24, 0.18) 6% 7.5%, transparent 8.5%);
+  }
+
+  .tape-strip {
+    background-image: linear-gradient(
+      120deg,
+      rgba(232, 226, 210, 0.74),
+      rgba(203, 182, 141, 0.5) 45%,
+      rgba(232, 226, 210, 0.62)
+    );
+    clip-path: polygon(2% 6%, 98% 0, 100% 92%, 4% 100%);
+    box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.85);
+  }
+
+  /* Torn bottom edge of a sheet that came out of the typewriter by hand. */
+  .deckle-bottom {
+    clip-path: polygon(
+      0 0, 100% 0, 100% 96%, 97% 99%, 93% 96.5%, 88% 99.5%, 83% 96.8%, 77% 99.2%,
+      71% 96.6%, 66% 99.4%, 60% 96.9%, 54% 99.1%, 48% 96.7%, 42% 99.3%, 36% 96.8%,
+      30% 99.5%, 24% 96.6%, 18% 99.2%, 12% 96.9%, 6% 99.4%, 2% 96.7%, 0 99%
+    );
+  }
+
+  .sheet-shadow {
+    filter: drop-shadow(0 26px 36px rgba(0, 0, 0, 0.85));
+  }
+
+  .clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    background-image: radial-gradient(circle at 26% 18%, rgba(255, 69, 0, 0.14), transparent 58%);
+  }
+
+  .xerox-ghost {
+    opacity: 0;
+    color: #ff4500;
+    mix-blend-mode: screen;
+    transition: opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+  }
+
+  .xerox:hover .xerox-ghost {
+    opacity: 0.45;
+    transform: translate(3px, -1px);
+    filter: blur(0.6px);
+  }
+
+  .blink {
+    animation: blink 1.05s steps(2, start) infinite;
+  }
+
+  .drop-cap::first-letter {
+    float: left;
+    padding-top: 0.35rem;
+    padding-right: 0.4rem;
+    font-family: 'Alfa Slab One', 'Times New Roman', serif;
+    font-size: 4rem;
+    line-height: 0.8;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

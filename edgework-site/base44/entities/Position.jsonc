@@ -1,0 +1,85 @@
+{
+  "name": "Position",
+  "type": "object",
+  "properties": {
+    "number": {
+      "type": "number",
+      "description": "Position number from the ledger"
+    },
+    "statement": {
+      "type": "string",
+      "description": "The belief, one or two sentences. *asterisks* mark the one phrase to highlight"
+    },
+    "arena": {
+      "type": "string",
+      "enum": [
+        "marketing",
+        "ai",
+        "judgement"
+      ],
+      "description": "Thinking arena: marketing orthodoxy, AI and work, independent judgement"
+    },
+    "conviction": {
+      "type": "number",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "default": 3
+    },
+    "source_essay": {
+      "type": "string",
+      "description": "Title of the essay that argues it"
+    },
+    "essay_slug": {
+      "type": "string",
+      "description": "Slug of that essay in the Essay list"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "draft"
+      ],
+      "default": "draft",
+      "description": "Only published records are visible to the public"
+    }
+  },
+  "required": [
+    "number",
+    "statement",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.status": "published"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

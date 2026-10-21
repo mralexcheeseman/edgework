@@ -1,0 +1,43 @@
+{
+  "name": "The 6am Wire",
+  "description": "Reads every active thinker's feed and files new collisions with Alex's Positions on The Wire.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 6 * * *",
+      "one_time_date": null,
+      "timezone": "Europe/London",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "do": [
+      {
+        "runWire": {
+          "call": "invoke_backend_function",
+          "then": "end",
+          "with": {
+            "function_name": "dailyWire",
+            "payload": {
+              "key": "<OWL_WIRE_KEY: set in Base44 secrets>"
+            }
+          }
+        }
+      }
+    ],
+    "document": {
+      "dsl": "1.0.0",
+      "name": "daily-wire",
+      "namespace": "base44",
+      "version": "1.0.0"
+    }
+  }
+}

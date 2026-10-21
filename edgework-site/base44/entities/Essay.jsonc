@@ -1,0 +1,92 @@
+{
+  "name": "Essay",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string"
+    },
+    "file_no": {
+      "type": "number",
+      "description": "Filing number, oldest = 1"
+    },
+    "title": {
+      "type": "string"
+    },
+    "deck": {
+      "type": "string",
+      "description": "Subtitle, quoted exactly"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "Teaser, quoted exactly"
+    },
+    "arena": {
+      "type": "string",
+      "enum": [
+        "marketing",
+        "ai",
+        "judgement"
+      ],
+      "description": "Thinking arena: marketing orthodoxy, AI and work, independent judgement"
+    },
+    "read_time": {
+      "type": "number"
+    },
+    "published_on": {
+      "type": "string",
+      "format": "date"
+    },
+    "url": {
+      "type": "string",
+      "description": "Canonical URL on The Last Animal"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "draft"
+      ],
+      "default": "draft",
+      "description": "Only published records are visible to the public"
+    }
+  },
+  "required": [
+    "slug",
+    "title",
+    "url",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.status": "published"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

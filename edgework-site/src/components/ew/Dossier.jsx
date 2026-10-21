@@ -18,6 +18,16 @@ export default function Dossier({ position, essay, onClose }) {
                 <Dialog.Title className="ew-label" style={{ color: 'var(--on-night-2)' }}>
                   Position {String(position.number).padStart(2, '0')} · {ARENAS[position.arena]?.label}
                 </Dialog.Title>
+                {position.context && (
+                  <>
+                    <p className="ew-label mt-8" style={{ color: 'var(--red-night)' }}>
+                      In plain words
+                    </p>
+                    <p className="ew-type mt-3 text-[17px] leading-[1.65]" style={{ color: 'var(--on-night)' }}>
+                      {position.context}
+                    </p>
+                  </>
+                )}
                 {essay ? (
                   <>
                     <p className="ew-label mt-8" style={{ color: 'var(--red-night)' }}>

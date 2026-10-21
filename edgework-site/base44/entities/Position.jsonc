@@ -34,6 +34,10 @@
       "type": "string",
       "description": "Title of the essay that argues it"
     },
+    "context": {
+      "type": "string",
+      "description": "In plain words: explains any term, model or reference in the statement for a reader who has never met it"
+    },
     "essay_slug": {
       "type": "string",
       "description": "Slug of that essay in the Essay list"

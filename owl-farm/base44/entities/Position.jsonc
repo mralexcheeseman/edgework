@@ -19,6 +19,10 @@
     "source_essay": {
       "type": "string"
     },
+    "source_essay_url": {
+      "type": "string",
+      "description": "Link to the essay on The Last Animal that argues this position in full"
+    },
     "conviction": {
       "type": "number",
       "enum": [

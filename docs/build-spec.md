@@ -1,4 +1,4 @@
-> Original build spec (20 Oct 2026), kept as written. What changed since is in `learnings.md`.
+> **What this is.** The original plan Owl Farm was built from (20 October 2026), kept as written. Owl Farm is the private app behind Alex Cheeseman's publication Edgework: it reads articles by the writers he follows, matches them to his beliefs (his Positions) and helps him draft posts. Some names changed after this was written (for example the Position arenas), and the Desk now drafts in two AI passes. What changed since is in [`learnings.md`](learnings.md); every term is in the [glossary](glossary.md).
 
 # Edgework newsroom: Base44 build spec
 

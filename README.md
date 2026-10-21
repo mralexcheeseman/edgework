@@ -1,6 +1,10 @@
 # Edgework
 
-Alex Cheeseman's writing system: a private newsroom that turns daily reading into posts, and a public site where the results live. After Hunter S. Thompson: the manuscript filed at 4am, red ink, no apologies.
+Alex Cheeseman's writing system. Alex writes about how AI is changing marketing, work and judgement. Edgework turns his daily reading into short, opinionated posts, through a private app called Owl Farm, and gives them a home on a public website.
+
+The look and attitude come from Hunter S. Thompson (1937–2005), the American journalist who invented first-person "gonzo" journalism: the manuscript filed at 4am, red ink, no apologies. Owl Farm is named after Thompson's home in Colorado. "Edgework" is the sociologist Stephen Lyng's word for voluntary risk-taking, which he took from Thompson.
+
+New here? Read the [handbook](docs/daily-routine.md) for how it runs, and the [glossary](docs/glossary.md) for every term.
 
 | Part | What it is | Live | Source here |
 | --- | --- | --- | --- |
@@ -11,7 +15,11 @@ Alex Cheeseman's writing system: a private newsroom that turns daily reading int
 
 ## Start here
 
-- [`docs/daily-routine.md`](docs/daily-routine.md): what to do every day and every Friday (also in Google Docs: [Edgework: the daily routine](https://docs.google.com/document/d/1gikugQ1lH_wYqYDRVcQObTYvu3IeZxAYU5rOnohq720/edit)).
+- [`docs/glossary.md`](docs/glossary.md): every name, idea and term explained, with where to read more.
+- [`docs/prompts.md`](docs/prompts.md): reaction starters for the Desk and copy-paste prompts for Claude.
+- [`docs/scorecard.md`](docs/scorecard.md): how well it's working, scored every four weeks.
+- [`docs/voice.md`](docs/voice.md) and [`docs/craft-playbook.md`](docs/craft-playbook.md): how Alex writes, and the techniques the Desk borrows.
+- [`docs/daily-routine.md`](docs/daily-routine.md): the handbook, what to do every day and every Friday (also in Google Docs: [Edgework: the daily routine](https://docs.google.com/document/d/1gikugQ1lH_wYqYDRVcQObTYvu3IeZxAYU5rOnohq720/edit)).
 - [`docs/learnings.md`](docs/learnings.md): what worked, what didn't, and how to reuse it for the next project.
 - [`docs/build-spec.md`](docs/build-spec.md): the original spec Owl Farm was built from.
 - [`docs/sources.md`](docs/sources.md): which thinkers the Wire reads, and why the others are lens-only.

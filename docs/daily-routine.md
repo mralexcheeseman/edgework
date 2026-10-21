@@ -1,14 +1,30 @@
 # The Edgework handbook
 
-Everything you need to run Edgework, in the order you'll need it. It takes about 15 minutes a day, plus 30 minutes on Fridays.
+**What this is.** Edgework is Alex Cheeseman's publication: short, opinionated pieces about how AI is changing marketing, work and judgement, published as typewritten cards and on the Edgework website. This handbook explains how to run it day to day with Owl Farm, the private app that does the reading and drafting. It takes about 15 minutes a day, plus 30 minutes on Fridays. You can read this page on its own; every term is explained below, and in full in the [glossary](glossary.md).
 
 - **Prompts you can copy:** [`prompts.md`](prompts.md)
 - **Where we are and what's next:** [`scorecard.md`](scorecard.md)
+- **Every term explained:** [`glossary.md`](glossary.md)
 - **Google Docs copy:** [Edgework: the daily routine](https://docs.google.com/document/d/1gikugQ1lH_wYqYDRVcQObTYvu3IeZxAYU5rOnohq720/edit)
+
+## The words you'll meet
+
+| Word | What it means |
+| --- | --- |
+| **Owl Farm** | The private app where everything happens, named after Hunter S. Thompson's home in Colorado. Only Alex can log in. |
+| **Position** | One of the 30 things Alex believes, each argued in full in an essay on his site The Last Animal. Example: *"AI usage metrics are the McNamara fallacy: measurable, and beside the point."* |
+| **Thinker** | One of the 50 writers Alex follows, such as Seth Godin, Morgan Housel and Zoe Scaman. 17 have free articles the app can read. |
+| **The Wire** | The page that reads new articles from the thinkers every morning at 6am. |
+| **Collision** | An article that **supports**, **challenges** or **extends** one of Alex's Positions. The Wire files at most 10 a day. |
+| **Reaction** | What Alex thinks about a collision, in his own words, one to three sentences. Every draft is built on it. |
+| **The Desk** | The page that turns a reaction into a draft, in two AI passes: a writer, then an editor. |
+| **The Typewriter** | The page that turns a draft into an image to post: typewritten text with real scanned coffee stains and tape. |
+| **Hey Rube, Dispatch, Routine, Expense report, Essay** | The five shapes a draft can take, from a 25-word jab to a 1,200-word essay. "Hey Rube" is Hunter S. Thompson's: the title of his column and the old carnival cry for help. |
+| **Go deeper** | Two to four real links under each piece for readers who want more, chosen from links Owl Farm already holds. |
 
 ## The idea in one paragraph
 
-At 6am the Wire reads new, free-to-read pieces from the thinkers you follow and checks each one against your Positions (the 30 things you believe). Where a piece supports, challenges or extends a Position, it files a **collision**. You pick one, say in a sentence what you think, and the Desk turns that into a draft in your voice. The Typewriter turns the draft into a stained, typewritten card you can post. **The machine supplies the accident; you supply the argument.** If you skip your sentence, there is nothing worth drafting.
+At 6am the Wire reads new, free-to-read pieces from the thinkers you follow and checks each one against your Positions. Where a piece supports, challenges or extends a Position, it files a **collision**. You pick one, say in a sentence what you think, and the Desk turns that into a draft in your voice that a stranger could read and understand. The Typewriter turns the draft into a stained, typewritten card you can post. **The machine supplies the accident; you supply the argument.** If you skip your sentence, there is nothing worth drafting.
 
 ## Links
 
@@ -60,7 +76,7 @@ Finish all three and the messages stop for the day. On Fridays the messages add 
 
 **Pick the one that makes you slightly annoyed.** Agreement makes dull writing; friction makes good writing. A "challenges" collision is usually the best pick.
 
-**Example.** The Wire files Seth Godin's "Toward depth" against Position #22 (*McNamara fallacy: we measure what's easy, not what matters*). Why it collides: "Godin reinforces your stance by condemning the trade of quality work for easily measured metrics."
+**Example.** The Wire files "Toward depth" by Seth Godin (the American marketing author who blogs daily at seths.blog) against Position #22: *AI usage metrics are the McNamara fallacy: measurable, and beside the point.* The McNamara fallacy means trusting only what you can count; it's named after the US defence secretary who judged the Vietnam war by body counts. Why the Wire says it collides: "Godin reinforces your stance by condemning the trade of quality work for easily measured metrics."
 - Kill it if you've said this ten times already.
 - Take it to the Desk if you have a fresh angle, e.g. AI dashboards counting prompts.
 
@@ -79,12 +95,16 @@ Finish all three and the messages stop for the day. On Fridays the messages add 
 | **Expense report** | 4–6 line items and a total | Showing the cost of a bad habit, with wit. | "TOTAL: one quarter, no answer." |
 | **Essay** | 800–1,200 words | Fridays, the week's best idea. | |
 
-5. **Lenses** (optional). The piece's own writer is the default. Add a contrast thinker with **Choose another…** for tension, e.g. Byron Sharp against a loyalty piece.
+5. **Lenses** (optional). A lens is a thinker whose way of seeing shapes the argument. The piece's own writer is the default. Add a contrast thinker with **Choose another…** for tension. For example, add Byron Sharp, the marketing scientist whose research suggests brand loyalty is mostly habit and availability, against a piece praising loyalty.
 6. **Write the draft.** It takes about a minute: a writer pass, then an editor pass.
 7. **Review what comes back:**
-   - **Red warnings:** a quote that isn't word for word in the source. Fix it or cut it.
+   - **Red warnings:**
+     - a quote that isn't word for word in the source: fix it or cut it;
+     - a reference a reader can't see ("Position #22", "the Wire", "this piece"): say it in plain words.
    - **The editor's note:** the biggest change it made, and why.
    - **Other lines the editor tried:** tap one to use it as the pull line (on a Hey Rube it replaces the whole thing).
+   - **Go deeper:** two to four links for readers who want more, plus "Look up" lines naming ideas to search for. They appear under the piece on the Edgework site. Delete any you wouldn't recommend.
+   - **Caption:** the text to post with the card, written so a stranger scrolling past understands it.
 8. **Edit until it sounds like you.** Check it against the list below.
 
 **Before you move on, check:**
@@ -92,8 +112,13 @@ Finish all three and the messages stop for the day. On Fridays the messages add 
 - [ ] Names the false belief it's arguing against.
 - [ ] Has one line someone would repeat at work. That's the pull line.
 - [ ] Sounds like you said it, not like the source writer.
+- [ ] **Reads alone:** someone who has never heard of the source, the people in it or your Positions would follow it. Every name, idea and model is introduced the first time it appears, e.g. "Seth Godin, the marketing author" or "OKRs (objectives and key results, the quarterly goals most teams live by)".
 - [ ] UK spelling, no em dashes, never "Not X, but Y".
 - [ ] Every quote and number appears in the original.
+
+**What "reads alone" looks like.** From a real Desk draft on the Godin collision above:
+- *Not alone:* "Godin's piece on Tamariz and Berry proves the McNamara point."
+- *Alone:* "Seth Godin, the marketing author, wrote this week about two people who had recently died: Juan Tamariz, the magician, and Wendell Berry, the writer and farmer… There's a name for this. The McNamara fallacy means trusting only what you can count."
 
 ### 3. The Typewriter (3 minutes)
 
@@ -109,10 +134,16 @@ Finish all three and the messages stop for the day. On Fridays the messages add 
 | Routine (Reel) | 1080 × 1920 | Routines; **Replay typing** previews the animation |
 
 3. **Shuffle marks** until no stain or tape covers the headline.
-4. **Export PNG**. Post it with the pull line (or the first line of the body) as the caption.
+4. **Export PNG.** On the draft, press **Copy caption + link**, and post the card with that caption. The copied text includes the first Go deeper link.
 5. Back on the draft, press **Mark published**. This is what tells the reminders you're done.
 
-**Caption example:** *Count prompts and you get prompts. Nobody counted the work. (From this week's Edgework.)* Add the link to the original piece in the first comment, credited.
+**Caption example** (from the Desk, for the Godin draft):
+> Give people a number and they'll hit the number.
+> Whether the work gets better is a separate matter.
+> Count the clicks and you'll get clicks. Nobody games depth.
+> Prompted by Seth Godin, the marketing author, on choosing depth over easily measured metrics.
+>
+> Go deeper: https://seths.blog/2026/10/toward-depth/
 
 ## Every Friday (30 minutes)
 
@@ -127,7 +158,7 @@ Finish all three and the messages stop for the day. On Fridays the messages add 
 ## Worked example: one day, start to finish
 
 1. **07:30.** Telegram: "4 collisions waiting." You open the Wire.
-2. **The Wire.** Brian Solis on AI agents and brand premiums, against Position #6. Kill two others, keep this one.
+2. **The Wire.** Brian Solis (a digital analyst and author who writes about technology and customer behaviour) on AI agents buying for people. It's filed against Position #6: *brands were built on human irrationality, and an agent buying for you is more rational than you, which puts the price premium at risk.* Kill two other collisions, keep this one.
 3. **What do you think?** "Every brand premium I've worked on was built on a feeling the buyer couldn't fully explain. If the agent is the buyer, the premium has to be earned in facts."
 4. **Shape:** Dispatch.
 5. **The Desk returns:**
@@ -161,4 +192,12 @@ A strong reaction has at least one of these: an opinion someone could disagree w
 
 ## Review
 
-Every four weeks, you and Claude review the system together against [`scorecard.md`](scorecard.md). The first review is **Wednesday 28 October, 19:30**. Claude prepares the numbers beforehand; bring one draft you liked and one you didn't.
+Every four weeks, you and Claude (the AI assistant that built and maintains Edgework) review the system together against [`scorecard.md`](scorecard.md). The first review is **Wednesday 28 October, 19:30**. Claude prepares the numbers beforehand; bring one draft you liked and one you didn't.
+
+## Go deeper
+
+- **On the daily habit:** James Clear, *Atomic Habits* (2018). On why a tiny daily action that's easy to start beats an ambitious plan, and why it helps to track a streak.
+- **On writing short and clear:** William Zinsser, *On Writing Well* (1976). The classic on cutting clutter; most of the editor's checks come from the same instincts.
+- **On writing every day in public:** Seth Godin's blog [seths.blog](https://seths.blog). He has posted daily for over twenty years, which shows what a short daily format can become.
+- **On where the attitude comes from:** Hunter S. Thompson, *The Great Shark Hunt* (1979), a collection of his journalism.
+- **On how the voice and the craft rules were built:** [`voice.md`](voice.md) and [`craft-playbook.md`](craft-playbook.md) in this repo.

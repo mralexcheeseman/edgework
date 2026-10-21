@@ -1,6 +1,19 @@
 # Learnings
 
-What we learned building Owl Farm and the Edgework site (Oct 2026), written so the next project can start from here. Newest lessons are added at the bottom of each section.
+**What this is.** What we learned building Edgework in October 2026, written so the next project can start from here. Edgework is Alex Cheeseman's publication on AI, marketing, work and judgement. It has two apps: **Owl Farm**, a private newsroom that reads articles and drafts posts, and the public **Edgework site**. Both were built by Claude (Anthropic's AI assistant) on **Base44**, an app-building platform. Newest lessons are added at the bottom of each section. Everyday terms are in the [glossary](glossary.md); the technical ones are below.
+
+**Technical terms used on this page:**
+- **Base44 builder:** Base44's chat that writes an app for you.
+- **Sandbox:** the copy of an app's code you can edit directly.
+- **Backend functions:** small server programs, written in Deno, a JavaScript runtime.
+- **Entities:** database tables.
+- **RLS:** row-level security, the rules for who can read or change a record.
+- **Workflows:** scheduled jobs.
+- **`InvokeLLM`:** Base44's call to an AI model.
+- **MCP:** Model Context Protocol, the way Claude connects to tools like Base44.
+- **Recraft:** an AI image generator, used to make the stain scans.
+- **Un-multiplying:** removing the paper colour from a scan so only the stain is left, by reversing the way ink darkens paper.
+- **A/B test:** running the old and new version side by side on the same input.
 
 ## Product
 
@@ -33,6 +46,13 @@ What we learned building Owl Farm and the Edgework site (Oct 2026), written so t
 - **Watch where reminder emails land.** Gmail filed Base44's emails under Updates; move one to Primary so the rest follow.
 - **Put a review in the calendar on day one, with a baseline score.** The 21 Oct baseline (`scorecard.md`) is 5.0/10: the machine scores well, the habit and publishing don't exist yet. Score what the system is for, not what it is.
 - **Give the user copy-paste prompts, not instructions.** Reaction starters for the Desk and self-contained Claude prompts (`prompts.md`) mean nothing depends on remembering this conversation.
+- **Write for the stranger, every time.** Drafts assumed the reader knew the source and the people in it ("Godin's piece on Tamariz…"). The Desk now has a read-alone rule:
+  - name the source with who they are;
+  - explain every person, idea, model and acronym on first mention;
+  - never refer to anything inside Owl Farm.
+
+  The editor scores it, and code flags insider references ("Position #22", "the Wire") in red. The same rule now applies to the docs, each of which opens with what it is and links the [glossary](glossary.md).
+- **Further reading must come from real links.** Go deeper is built from addresses Owl Farm already holds: the source article, Alex's Last Animal essay for the Position (now stored on each Position as `source_essay_url`) and the writers' own sites. The model only picks from that numbered list and says why; it can't invent a link.
 
 ## Design
 

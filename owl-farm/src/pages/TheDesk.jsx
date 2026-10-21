@@ -145,6 +145,7 @@ export default function TheDesk() {
       const res = await base44.functions.invoke('generateDraft', {
         origin_type: pickType,
         origin_text: briefingText(),
+        collision_id: collision?.id,
         reaction,
         format,
         lens_ids: lensIds,
@@ -163,6 +164,12 @@ export default function TheDesk() {
         reaction,
         lenses: thinkers.filter((t) => lensIds.includes(t.id)).map((t) => t.name),
         status: 'drafted',
+        // One item per line: "Title | URL | why" for links, "Look up: ..." for ideas to search.
+        go_deeper: [
+          ...(data.go_deeper || []).map((g) => `${g.title} | ${g.url} | ${g.why}`),
+          ...(data.look_up || []).map((l) => `Look up: ${l}`),
+        ].join('\n'),
+        caption: data.caption || '',
       };
       if (spark) payload.spark = spark.id;
       if (collision) payload.collision = collision.id;

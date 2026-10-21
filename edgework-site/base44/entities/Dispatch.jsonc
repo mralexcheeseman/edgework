@@ -29,6 +29,10 @@
     "body": {
       "type": "string"
     },
+    "go_deeper": {
+      "type": "string",
+      "description": "Further reading under the piece, one per line: 'Title | URL | why it's worth reading', or 'Look up: name, what it is'"
+    },
     "published_on": {
       "type": "string",
       "format": "date"

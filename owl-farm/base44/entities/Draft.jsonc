@@ -51,6 +51,14 @@
     },
     "collision": {
       "type": "string"
+    },
+    "go_deeper": {
+      "type": "string",
+      "description": "Further reading shown under the piece: one item per line, 'Title | URL | why it's worth reading'"
+    },
+    "caption": {
+      "type": "string",
+      "description": "Social caption for the card: makes sense on its own, credits the source and who they are"
     }
   },
   "required": [

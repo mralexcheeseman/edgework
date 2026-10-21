@@ -19,6 +19,15 @@ export default function DispatchPage() {
     );
   const seed = hash(slug.length * 17 + 3);
   const paras = String(d.body || '').split(/\n{2,}/).filter(Boolean);
+  // "Title | URL | why" lines are links; "Look up: ..." lines are ideas to search for.
+  const deeper = String(d.go_deeper || '')
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((l) => {
+      const [title, url, why] = l.split('|').map((s) => s?.trim());
+      return url?.startsWith('http') ? { title, url, why } : { text: l.replace(/^look up:\s*/i, '') };
+    });
   return (
     <article className="mx-auto max-w-[980px] px-4 pb-32 pt-14 md:px-10 md:pb-44 md:pt-24">
       <p className="ew-label" style={{ color: 'var(--ink-3)' }}>
@@ -50,6 +59,27 @@ export default function DispatchPage() {
         </div>
         <p className="ew-above ew-label mt-12" style={{ color: 'var(--ink-3)' }}>— Alex Cheeseman</p>
       </div>
+      {deeper.length > 0 && (
+        <section className="mt-16 max-w-[var(--measure)]" aria-labelledby="go-deeper">
+          <h2 id="go-deeper" className="ew-label">Go deeper</h2>
+          <ul className="mt-4 space-y-5">
+            {deeper.map((g, i) => (
+              <li key={i} className="ew-type text-[17px] leading-[1.6]">
+                {g.url ? (
+                  <>
+                    <a href={g.url} target="_blank" rel="noreferrer" className="underline decoration-[var(--red)] decoration-2 underline-offset-4">
+                      {g.title}
+                    </a>
+                    {g.why && <span className="block" style={{ color: 'var(--ink-2)' }}>{g.why}</span>}
+                  </>
+                ) : (
+                  <span style={{ color: 'var(--ink-2)' }}>Look up: {g.text}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <Link to="/dispatches" className="ew-btn mt-12">← Back to the wire</Link>
     </article>
   );

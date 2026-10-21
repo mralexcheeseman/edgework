@@ -34,6 +34,15 @@ const FLOURISH = `PERSONALITY (use two or three of these, never all):
 6. Dry understatement where others would shout.
 These are techniques learned from writers Alex reads (Cole Schafer, Zoe Scaman, Nicholas Carr, Morgan Housel). Never imitate a named writer, never reuse their phrasing, never mention them unless the material does.`;
 
+const CONTEXT = `READ-ALONE RULE. The reader has never seen the source material, has never heard of Owl Farm or Alex's Positions, and may not know anyone you name. The piece must make complete sense on its own:
+- Name the source properly on first mention: the writer, who they are in a few words, and what they wrote (e.g. "Seth Godin, the marketing author, wrote this week that...").
+- Introduce every person, company, book, framework, model or term the first time it appears, in a clause or a bracket: who they are, or what it means. Example: "the McNamara fallacy (trusting only what you can count, named after Robert McNamara, the US defence secretary who judged the Vietnam war by body counts)". Do this even for names you think are famous.
+- Only state facts about them that are in the material or are widely known and uncontroversial. If you're not sure, describe them by their role in the material and nothing more.
+- Never refer to things the reader can't see: no "this piece", "the article", "Position #22", "the collision", "the Wire", or "as I've argued" without saying where.
+- Plain words instead of jargon; if a term is needed, explain it in one line. Spell out acronyms on first use.
+- Alex is the author: write as him ("I", "we", "you"), in the deck and caption too. Never call him "Alex" or refer to him in the third person.
+- A Hey Rube has no room for explanations: choose words that need none, and let the deck carry the context (who said what, where).`;
+
 const BANNED = `NEVER: em dashes or en dashes; "It's not X, it's Y" or "Not X, but Y" or "The question isn't X, it's Y"; consultant words (leverage, unlock, navigate, landscape, ecosystem, game-changer, delve, robust, seamless, in today's fast-paced world); stacked rhetorical questions; hype words; exclamation marks; US spelling; any quote, statistic or study that is not in the material word for word (if it isn't there, make it Alex's view and say so).`;
 
 function recipe(format) {
@@ -79,7 +88,7 @@ Return JSON: {"title","deck","pull" (key phrase in *asterisks*),"body"}`;
 }
 
 // --- v2: plan, draft, edit. ---
-async function draftV2(base44, { format, originType, originText, reaction, lensLines }) {
+async function draftV2(base44, { format, originType, originText, reaction, lensLines, resources = [] }) {
   const writerPrompt = `You are the drafting desk inside Owl Farm, the private newsroom behind Edgework, Alex Cheeseman's publication. You write first drafts that Alex will edit and publish under his own name.
 
 Alex's reaction is the spine. Build HIS argument from it; never swap in a different argument, and never just summarise the material.
@@ -95,6 +104,8 @@ ${lensLines || 'No thinker lenses selected.'}
 ${VOICE}
 
 ${FLOURISH}
+
+${CONTEXT}
 
 ${BANNED}
 
@@ -128,11 +139,13 @@ Return JSON only.`;
   const editorPrompt = `You are Alex Cheeseman's editor. Below is a first draft written in his voice, the material it came from, and his reaction. Score it, then rewrite it so every check passes. Keep what works; cut what doesn't. Keep the same format and length limits: ${recipe(format)}
 
 CHECKS (score each 1 to 5, 5 = excellent):
-opening (starts in a concrete scene or fact, no throat-clearing); enemy (names the false belief); stakes (why now, and for whom); line (a sentence people would repeat, used as the pull); voice (sounds like Alex, not like the source's writer or a generic AI); flourish (two or three personality moves, not more); specificity (at least one exact detail); ending (callback or short verdict); banned (none of the banned items); truth (every quote is word for word in the material and credited; every figure is in the material or framed as Alex's view).
+opening (starts in a concrete scene or fact, no throat-clearing); enemy (names the false belief); stakes (why now, and for whom); line (a sentence people would repeat, used as the pull); voice (sounds like Alex, not like the source's writer or a generic AI); flourish (two or three personality moves, not more); specificity (at least one exact detail); ending (callback or short verdict); banned (none of the banned items); truth (every quote is word for word in the material and credited; every figure is in the material or framed as Alex's view); context (reads alone: the source is named and introduced, every person, idea, model and term is explained on first mention, nothing refers to things the reader can't see).
 
 ${VOICE}
 
 ${FLOURISH}
+
+${CONTEXT}
 
 ${BANNED}
 
@@ -148,9 +161,16 @@ Pull: ${plan?.pull}
 Body:
 ${plan?.body}
 
+GO DEEPER. For a reader who wants more, pick 2 to 4 of these numbered resources, best first, each with one specific sentence on what they'll get from it (no hype). Pick ONLY from this list; never invent a link:
+${resources.length ? resources.map((r, i) => `${i + 1}. ${r.title}: ${r.note} (${r.url})`).join('\n') : '(none available: return an empty list)'}
+
+LOOK UP. List 1 to 3 names, ideas or books mentioned in your revised piece that a curious reader could look up to think further, each as "Name: what it is and what to search for", in one line. Only things actually in the piece.
+
+CAPTION. Write a caption for posting the card on LinkedIn or Instagram, 2 to 4 short lines, that makes sense to someone scrolling past who knows nothing: the idea in Alex's voice, then the source credited by name and who they are. No hashtags, no emojis, no links (the link is added after).
+
 Also write three alternative pull lines, each a different angle on the same argument (sharper, funnier, colder), each with its key phrase in *asterisks*, each under 20 words. For a Hey Rube, the alternatives are three complete alternative provocations of at most 25 words.
 
-Return JSON only: the scores (of your revised version), one sentence on the biggest fix you made, the revised title, deck, pull (key phrase in *asterisks*) and body, and the alternatives.`;
+Return JSON only: the scores (of your revised version), one sentence on the biggest fix you made, the revised title, deck, pull (key phrase in *asterisks*) and body, the alternatives, go_deeper (each {n, why}), look_up and caption.`;
 
   const edited = await base44.asServiceRole.integrations.Core.InvokeLLM({
     prompt: editorPrompt,
@@ -160,17 +180,25 @@ Return JSON only: the scores (of your revised version), one sentence on the bigg
       properties: {
         scores: {
           type: 'object',
-          properties: Object.fromEntries(['opening', 'enemy', 'stakes', 'line', 'voice', 'flourish', 'specificity', 'ending', 'banned', 'truth'].map((k) => [k, { type: 'number' }])),
+          properties: Object.fromEntries(['opening', 'enemy', 'stakes', 'line', 'voice', 'flourish', 'specificity', 'ending', 'banned', 'truth', 'context'].map((k) => [k, { type: 'number' }])),
         },
         biggest_fix: { type: 'string' },
         alternatives: { type: 'array', items: { type: 'string' } },
+        go_deeper: { type: 'array', items: { type: 'object', properties: { n: { type: 'number' }, why: { type: 'string' } }, required: ['n', 'why'] } },
+        look_up: { type: 'array', items: { type: 'string' } },
+        caption: { type: 'string' },
         ...DRAFT_SCHEMA.properties,
       },
       required: ['scores', 'title', 'deck', 'pull', 'body', 'alternatives'],
     },
   });
 
-  return { ...edited, angle: plan?.angle, first_draft: plan?.body };
+  // Map the editor's picks back to real links; anything out of range is dropped.
+  const goDeeper = (edited?.go_deeper || [])
+    .map((g) => ({ ...resources[Number(g?.n) - 1], why: String(g?.why || '') }))
+    .filter((g) => g.url)
+    .slice(0, 4);
+  return { ...edited, go_deeper: goDeeper, angle: plan?.angle, first_draft: plan?.body };
 }
 
 // --- Checks the model can't be trusted to do on its own. ---
@@ -189,19 +217,31 @@ function tidy(text) {
 function quoteWarnings(body, material) {
   const norm = (s) => s.toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ');
   const src = norm(material);
-  const quotes = [...String(body).matchAll(/[“"]([^”"]{25,})[”"]/g)].map((m) => m[1]);
+  // An opening quote follows a space or bracket and a closing one is followed by punctuation,
+  // so the gap between two quotes is never mistaken for a quote.
+  const quotes = [...String(body).matchAll(/(?:^|[\s(\[])["“]([^"”\n]{25,}?)["”](?=[\s.,;:!?)\]]|$)/g)].map((m) => m[1]);
   return quotes.filter((q) => !src.includes(norm(q).replace(/[.,]$/, ''))).map((q) => `Check this quote, it isn't word for word in the source: "${q.slice(0, 90)}${q.length > 90 ? '…' : ''}"`);
 }
 
-// Same briefing the Desk builds, for calls that only pass a collision id (tests, workflows).
+// The briefing for a collision, plus the real links a reader could go to next.
 async function briefingFor(base44, id) {
-  const c = await base44.asServiceRole.entities.Collision.get(id);
+  const db = base44.asServiceRole.entities;
+  const c = await db.Collision.get(id);
   const [p, s] = await Promise.all([
-    c.position ? base44.asServiceRole.entities.Position.get(c.position) : null,
-    c.source_item ? base44.asServiceRole.entities.SourceItem.get(c.source_item) : null,
+    c.position ? db.Position.get(c.position) : null,
+    c.source_item ? db.SourceItem.get(c.source_item) : null,
   ]);
+  const writer = s?.thinker ? ((await db.Thinker.filter({ name: s.thinker }, { limit: 1 }))?.items || [])[0] : null;
+  const resources = [];
+  if (s?.url) resources.push({ title: `"${s.title}" by ${s.thinker || 'the writer'}`, url: s.url, note: 'the piece this responds to' });
+  if (p?.source_essay_url) resources.push({ title: `"${p.source_essay}" by Alex Cheeseman`, url: p.source_essay_url, note: 'Alex\'s full essay on The Last Animal arguing this position' });
+  if (writer) {
+    const home = writer.newsletter || writer.website;
+    if (home && home !== s?.url) resources.push({ title: `${writer.name}'s writing`, url: home, note: writer.core_position ? `known for: ${writer.core_position}` : 'more from the same writer' });
+  }
   const parts = [];
-  if (p) parts.push(`ALEX'S POSITION #${p.number}: ${p.statement}`);
+  if (writer?.core_position) parts.push(`WHO THE WRITER IS: ${writer.name}, ${writer.cluster ? `${writer.cluster.toLowerCase()} thinker, ` : ''}known for: ${writer.core_position}`);
+  if (p) parts.push(`ALEX'S POSITION #${p.number}: ${p.statement}${p.source_essay ? `\nALEX'S ESSAY ON IT: "${p.source_essay}" on The Last Animal${p.source_essay_url ? ` (${p.source_essay_url})` : ''}` : ''}`);
   parts.push(`HOW THE PIECE COLLIDES WITH IT: it ${c.relation} the position. ${c.why || ''}`);
   if (s) {
     parts.push(`THE PIECE: "${s.title}" by ${s.thinker || 'unknown'}${s.url ? ` (${s.url})` : ''}`);
@@ -210,7 +250,7 @@ async function briefingFor(base44, id) {
     if (s.highlights?.length) parts.push(`LINES ALEX HIGHLIGHTED FROM THE PIECE:\n${s.highlights.map((h) => `- "${h}"`).join('\n')}`);
     if (s.lines?.length) parts.push(`OTHER LINES FROM THE PIECE (exact quotes):\n${s.lines.map((h) => `- "${h}"`).join('\n')}`);
   }
-  return parts.join('\n\n');
+  return { text: parts.join('\n\n'), resources };
 }
 
 export default async function (req) {
@@ -229,9 +269,13 @@ export default async function (req) {
     const format = FORMATS.includes(payload?.format) ? payload.format : 'dispatch';
     let originType = payload?.origin_type === 'collision' ? 'collision' : 'spark';
     let originText = String(payload?.origin_text || '').slice(0, 9000);
+    let resources = [];
     if (payload?.collision_id) {
       originType = 'collision';
-      originText = await briefingFor(base44, String(payload.collision_id));
+      const brief = await briefingFor(base44, String(payload.collision_id));
+      // Alex's highlights live on the source item, so the server briefing has them too.
+      originText = brief.text;
+      resources = brief.resources;
     }
     const lensIds = Array.isArray(payload?.lens_ids) ? payload.lens_ids.slice(0, 3).map(String) : [];
 
@@ -244,13 +288,20 @@ export default async function (req) {
         items
           .map((t, i) => `- ${['Primary lens, gives the argument its shape', 'Contrast lens, gives it tension', 'Third lens'][i]}: ${t.name}${t.core_position ? `, known for: ${t.core_position}` : ''}`)
           .join('\n');
+      for (const t of items) {
+        const home = t.newsletter || t.website;
+        if (home && !resources.some((r) => r.url === home)) resources.push({ title: `${t.name}'s writing`, url: home, note: t.core_position ? `known for: ${t.core_position}` : `more from ${t.name}` });
+      }
     }
 
-    const args = { format, originType, originText, reaction, lensLines };
+    const args = { format, originType, originText, reaction, lensLines, resources };
     const result = payload?.variant === 'v1' ? await draftV1(base44, args) : await draftV2(base44, args);
 
     const body = tidy(result?.body);
     const warnings = quoteWarnings(body, originText);
+    // The reader can't see Owl Farm: flag any reference to its insides.
+    const insider = String(body).match(/\b(Position #?\d+|the Wire|the collision|this piece|the article)\b/i);
+    if (insider) warnings.push(`Readers can't see "${insider[0]}". Say what you mean in plain words, or name the source.`);
     return Response.json({
       title: tidy(result?.title).slice(0, 200),
       deck: tidy(result?.deck).slice(0, 400),
@@ -262,6 +313,9 @@ export default async function (req) {
       alternatives: (result?.alternatives || []).slice(0, 3).map(tidy),
       angle: result?.angle || '',
       first_draft: payload?.variant === 'v1' ? undefined : result?.first_draft,
+      go_deeper: result?.go_deeper || [],
+      look_up: (result?.look_up || []).slice(0, 3).map(tidy),
+      caption: tidy(result?.caption),
       warnings,
     });
   } catch (error) {

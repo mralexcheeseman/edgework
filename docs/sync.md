@@ -1,6 +1,6 @@
 # Syncing from Base44
 
-Base44 is where both apps run and change. This repo is public, so every sync must leave secrets out.
+**What this is.** How to copy the latest code of Edgework's two apps into this GitHub repository. The apps are Owl Farm (Alex Cheeseman's private writing app) and the public Edgework site. Both run on **Base44**, an app-building platform, and that is where they change. This repo keeps a public copy for reference and reuse, so every sync must leave **secrets** out. Secrets are private keys and passwords, such as the key that lets the 6am Wire job run and the Telegram bot's token. In the steps below, a **sandbox** is Base44's editable copy of an app, and **tar** is a standard command that bundles files into one archive.
 
 ## The quick way
 

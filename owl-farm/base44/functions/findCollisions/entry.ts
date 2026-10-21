@@ -51,7 +51,7 @@ ${catalogue}
 Find the positions this source item genuinely collides with, meaning it SUPPORTS, CHALLENGES or EXTENDS them. Only real, specific collisions about the substance of the position; ignore loose thematic overlap. Return at most 5, most interesting first. Never return a position id from this list of ids already collided: ${existing.join(', ') || 'none'}.
 
 Return JSON only, in this shape:
-{"collisions": [{"position_id": "the id from the catalogue", "relation": "supports | challenges | extends", "why": "one or two sentences naming the specific friction or reinforcement"}]}`;
+{"collisions": [{"position_id": "the id from the catalogue", "relation": "supports | challenges | extends", "why": "one or two sentences, addressed to Alex as 'you' (never by name or in the third person), naming the specific friction or reinforcement"}]}`;
 
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt,

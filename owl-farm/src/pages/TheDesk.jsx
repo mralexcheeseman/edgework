@@ -45,6 +45,7 @@ export default function TheDesk() {
   const [lensIds, setLensIds] = useState([]);
   const [showAllLenses, setShowAllLenses] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState('');
   const [draft, setDraft] = useState(null);
   const [notes, setNotes] = useState(null);
@@ -138,51 +139,67 @@ export default function TheDesk() {
       return;
     }
     setBusy(true);
+    setWaiting(false);
+    const started = Date.now();
+    const show = (d) => {
+      setDraft(d);
+      setTimeout(() => document.getElementById('the-draft')?.scrollIntoView({ behavior: 'smooth' }), 100);
+    };
+    // The server saves the draft itself; this finds it if the response never arrives.
+    const findSaved = async () => {
+      const query = collision ? { collision: collision.id } : spark ? { spark: spark.id } : null;
+      if (!query) return null;
+      const res = await base44.entities.Draft.filter(query, { sort: '-created_date', limit: 5 });
+      const when = (s) => new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(s || '') ? s : `${s}Z`).getTime();
+      return (res?.items || []).find((d) => d.reaction === reaction && when(d.created_date) >= started - 60000) || null;
+    };
     try {
       if (collision && reaction !== (collision.reaction || '')) {
         await base44.entities.Collision.update(collision.id, { reaction, status: 'kept' });
       }
-      const res = await base44.functions.invoke('generateDraft', {
-        origin_type: pickType,
-        origin_text: briefingText(),
-        collision_id: collision?.id,
-        reaction,
-        format,
-        lens_ids: lensIds,
-      });
-      const data = res?.data || {};
+      let data;
+      try {
+        const res = await base44.functions.invoke('generateDraft', {
+          origin_type: pickType,
+          origin_text: briefingText(),
+          collision_id: collision?.id,
+          reaction,
+          format,
+          lens_ids: lensIds,
+          save: {
+            lenses: thinkers.filter((t) => lensIds.includes(t.id)).map((t) => t.name),
+            spark: spark?.id,
+            collision: collision?.id,
+          },
+        });
+        data = res?.data || {};
+      } catch (err) {
+        // A server error comes back with a body; a dropped connection doesn't. Then the
+        // draft is usually still being written: wait for it to land (up to three minutes).
+        if (err?.response?.data?.error) throw err;
+        setWaiting(true);
+        for (let i = 0; i < 36; i += 1) {
+          await new Promise((r) => setTimeout(r, 5000));
+          const saved = await findSaved();
+          if (saved) {
+            setNotes({ alternatives: [], warnings: [], biggest_fix: '' });
+            show(saved);
+            return;
+          }
+        }
+        throw new Error('The draft is taking longer than usual. Check the Archive in a minute; it saves there when it finishes.');
+      }
       if (data.error) {
         setError(data.error);
         return;
       }
-      const payload = {
-        format,
-        title: data.title || '',
-        deck: data.deck || '',
-        pull: data.pull || '',
-        body: data.body || '',
-        reaction,
-        lenses: thinkers.filter((t) => lensIds.includes(t.id)).map((t) => t.name),
-        status: 'drafted',
-        // One item per line: "Title | URL | why" for links, "Look up: ..." for ideas to search.
-        go_deeper: [
-          ...(data.go_deeper || []).map((g) => `${g.title} | ${g.url} | ${g.why}`),
-          ...(data.look_up || []).map((l) => `Look up: ${l}`),
-        ].join('\n'),
-        caption: data.caption || '',
-        // The Desk's own version, so "Learn from edits" can see what Alex changed.
-        original_title: data.title || '',
-        original_body: data.body || '',
-      };
-      if (spark) payload.spark = spark.id;
-      if (collision) payload.collision = collision.id;
       setNotes({ alternatives: data.alternatives || [], warnings: data.warnings || [], biggest_fix: data.biggest_fix || '' });
-      setDraft(await base44.entities.Draft.create(payload));
-      setTimeout(() => document.getElementById('the-draft')?.scrollIntoView({ behavior: 'smooth' }), 100);
+      show(data.draft_id ? await base44.entities.Draft.get(data.draft_id) : await findSaved());
     } catch (err) {
       setError(err?.response?.data?.error || err.message || 'Drafting failed.');
     } finally {
       setBusy(false);
+      setWaiting(false);
     }
   };
 
@@ -313,7 +330,7 @@ export default function TheDesk() {
 
           {error && <p className="ew-type text-[#c4211a]">{error}</p>}
           <button className={buttonRed} disabled={busy || !reaction.trim()} onClick={generate}>
-            {busy ? 'Drafting, then editing… (about a minute)' : reaction.trim() ? 'Write the draft' : 'Say what you think first (step 3)'}
+            {waiting ? 'Still writing, keep this page open…' : busy ? 'Drafting, then editing… (about a minute)' : reaction.trim() ? 'Write the draft' : 'Say what you think first (step 3)'}
           </button>
         </Step>
       )}

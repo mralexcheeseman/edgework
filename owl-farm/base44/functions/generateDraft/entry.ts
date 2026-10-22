@@ -309,7 +309,7 @@ export default async function (req) {
     // The reader can't see Owl Farm: flag any reference to its insides.
     const insider = String(body).match(/\b(Position #?\d+|the Wire|the collision|this piece|the article)\b/i);
     if (insider) warnings.push(`Readers can't see "${insider[0]}". Say what you mean in plain words, or name the source.`);
-    return Response.json({
+    const out = {
       title: tidy(result?.title).slice(0, 200),
       deck: tidy(result?.deck).slice(0, 400),
       pull: tidy(result?.pull).slice(0, 400),
@@ -324,7 +324,35 @@ export default async function (req) {
       look_up: (result?.look_up || []).slice(0, 3).map(tidy),
       caption: tidy(result?.caption),
       warnings,
-    });
+    };
+
+    // { save: {...} } stores the draft here, so it survives a phone or browser that gives up
+    // waiting (some connections drop after about 30 seconds; a Dispatch takes longer). The Desk
+    // then picks the saved draft up even if this response never reaches it.
+    if (payload?.save && typeof payload.save === 'object') {
+      const s = payload.save;
+      const record = {
+        format,
+        title: out.title,
+        deck: out.deck,
+        pull: out.pull,
+        body: out.body,
+        reaction,
+        lenses: Array.isArray(s.lenses) ? s.lenses.slice(0, 3).map(String) : [],
+        status: 'drafted',
+        // One item per line: "Title | URL | why" for links, "Look up: ..." for ideas to search.
+        go_deeper: [...out.go_deeper.map((g) => `${g.title} | ${g.url} | ${g.why}`), ...out.look_up.map((l) => `Look up: ${l}`)].join('\n'),
+        caption: out.caption,
+        // The Desk's own version, so "Learn from edits" can see what Alex changed.
+        original_title: out.title,
+        original_body: out.body,
+      };
+      if (s.spark) record.spark = String(s.spark);
+      if (s.collision) record.collision = String(s.collision);
+      const draft = await base44.asServiceRole.entities.Draft.create(record);
+      out.draft_id = draft.id;
+    }
+    return Response.json(out);
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }

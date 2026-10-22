@@ -4,6 +4,12 @@
 
 Rule: the Wire only reads pieces it can read in full. A piece is "full" when the article page gives at least 800 characters of body text and doesn't hit the paywall pattern. Anything else is stored as a stub (`read_full: false`) and skipped. Checked 21 Oct 2026 with `owl-farm/scripts/check-feeds.mjs`.
 
+## Your Readwise highlights (read first)
+
+When the `READWISE_TOKEN` secret is set, every 6am run starts with the lines Alex highlighted in [Readwise](https://readwise.io) over the last three days: books, articles, podcasts and posts. Each book or article becomes one source item carrying his highlights and any notes he wrote on them, and the Wire looks for collisions in those lines. Because he chose them, they need a match of strength 3 out of 5 (feeds need 4), and they rank above feed pieces. Articles are also read in full where they're free, so the Desk has more to quote.
+
+This is how writers with no free feed reach the Wire: highlight Rory Sutherland, Mark Ritson, Byron Sharp or Malcolm Gladwell in a book or a saved article, and the next morning's Wire can file it.
+
 ## Free and active
 
 | Thinker | Feed |

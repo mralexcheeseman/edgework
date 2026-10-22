@@ -59,6 +59,34 @@
     "caption": {
       "type": "string",
       "description": "Social caption for the card: makes sense on its own, credits the source and who they are"
+    },
+    "original_title": {
+      "type": "string",
+      "description": "The title as the Desk first wrote it, kept so Owl Farm can learn from Alex's edits"
+    },
+    "original_body": {
+      "type": "string",
+      "description": "The body as the Desk first wrote it, kept so Owl Farm can learn from Alex's edits"
+    },
+    "lesson_checked": {
+      "type": "boolean",
+      "description": "True once 'Learn from edits' has compared this draft with what Alex shipped"
+    },
+    "post_url": {
+      "type": "string",
+      "description": "Where the card was posted (LinkedIn, Instagram)"
+    },
+    "reach": {
+      "type": "number",
+      "description": "Impressions or views a week after posting"
+    },
+    "engagements": {
+      "type": "number",
+      "description": "Reactions, comments, reposts and saves a week after posting"
+    },
+    "tg_update": {
+      "type": "number",
+      "description": "Last Telegram update handled for this draft, so a retried webhook isn't drafted twice"
     }
   },
   "required": [

@@ -10,6 +10,9 @@ export default function DraftEditor({ draft, onSaved, notes }) {
   const [body, setBody] = useState(draft.body || '');
   const [goDeeper, setGoDeeper] = useState(draft.go_deeper || '');
   const [caption, setCaption] = useState(draft.caption || '');
+  const [postUrl, setPostUrl] = useState(draft.post_url || '');
+  const [reach, setReach] = useState(draft.reach ?? '');
+  const [engagements, setEngagements] = useState(draft.engagements ?? '');
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState(draft.status || 'drafted');
   const [saving, setSaving] = useState(false);
@@ -21,6 +24,9 @@ export default function DraftEditor({ draft, onSaved, notes }) {
     setBody(draft.body || '');
     setGoDeeper(draft.go_deeper || '');
     setCaption(draft.caption || '');
+    setPostUrl(draft.post_url || '');
+    setReach(draft.reach ?? '');
+    setEngagements(draft.engagements ?? '');
     setStatus(draft.status || 'drafted');
   }, [draft.id]);
 
@@ -35,13 +41,29 @@ export default function DraftEditor({ draft, onSaved, notes }) {
   const save = async (nextStatus) => {
     setSaving(true);
     try {
-      const updated = await base44.entities.Draft.update(draft.id, { title, deck, pull, body, go_deeper: goDeeper, caption, status: nextStatus });
+      const numberOrNull = (v) => (v === '' || v === null || isNaN(Number(v)) ? null : Number(v));
+      const updated = await base44.entities.Draft.update(draft.id, {
+        title, deck, pull, body, go_deeper: goDeeper, caption, status: nextStatus,
+        post_url: postUrl, reach: numberOrNull(reach), engagements: numberOrNull(engagements),
+      });
       setStatus(nextStatus);
       if (onSaved) onSaved(updated);
     } finally {
       setSaving(false);
     }
   };
+
+  // How much of the Desk's wording survived Alex's edit: the share of its words still in the body.
+  const kept = (() => {
+    const words = (t) => String(t || '').toLowerCase().match(/[a-z'’]+/g) || [];
+    const original = words(draft.original_body);
+    if (!original.length) return null;
+    const left = new Map();
+    for (const w of words(body)) left.set(w, (left.get(w) || 0) + 1);
+    let same = 0;
+    for (const w of original) if (left.get(w)) { same += 1; left.set(w, left.get(w) - 1); }
+    return Math.round((100 * same) / original.length);
+  })();
 
   return (
     <section className={`${panel} mt-8`}>
@@ -57,6 +79,7 @@ export default function DraftEditor({ draft, onSaved, notes }) {
       <p className={hint}>
         {draft.format}
         {draft.lenses?.length ? ` · lenses: ${draft.lenses.join(', ')}` : ''} · status: {status}
+        {kept !== null && kept < 100 ? ` · you kept ${kept}% of the Desk's words` : ''}
       </p>
       <div>
         <label className={label}>Title</label>
@@ -107,6 +130,15 @@ export default function DraftEditor({ draft, onSaved, notes }) {
         <button type="button" className={`${button} mt-2`} onClick={copyCaption} disabled={!caption}>
           {copied ? 'Copied' : 'Copy caption + link'}
         </button>
+      </div>
+      <div>
+        <label className={label}>After posting · a week later</label>
+        <p className={hint}>Where it went and how it did. The monthly review compares these by Position and shape.</p>
+        <input className={input} placeholder="Post link" value={postUrl} onChange={(e) => setPostUrl(e.target.value)} />
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          <input className={input} inputMode="numeric" placeholder="Reach (impressions)" value={reach} onChange={(e) => setReach(e.target.value)} />
+          <input className={input} inputMode="numeric" placeholder="Reactions + comments + reposts" value={engagements} onChange={(e) => setEngagements(e.target.value)} />
+        </div>
       </div>
       <div className="flex flex-wrap gap-2">
         <button className={button} disabled={saving} onClick={() => save('edited')}>

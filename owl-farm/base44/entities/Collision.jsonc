@@ -30,6 +30,15 @@
     },
     "reaction": {
       "type": "string"
+    },
+    "picked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this collision was last sent to Telegram as the day's pick"
+    },
+    "tg_update": {
+      "type": "number",
+      "description": "Last Telegram update handled for this collision, so a retried webhook isn't drafted twice"
     }
   },
   "required": [

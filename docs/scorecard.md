@@ -39,6 +39,14 @@ Each area below is scored from 1 (not working) to 10 (as good as it can be), wit
 
 **Overall:** (6 + 6 + 7 + 8 + 2×2 + 9 + 1×2 + 8) / 10 = **5.0**. The machine on its own (a plain average of all eight areas) scores 5.9.
 
+### Built since the baseline (22 October)
+
+These are built and tested but not yet switched on (Base44 needs reconnecting first), so the scores above stay as they are until they're live:
+- **Habit:** the whole routine from Telegram. The bot sends the day's pick, you reply with your reaction, and the draft comes back with Keep / Redo / Kill buttons.
+- **Sources:** your Readwise highlights feed the Wire before the RSS feeds, which reaches the writers who have no free feed.
+- **Drafts:** the Desk learns from your edits. Each Sunday it proposes voice rules from what you changed, and every new draft follows the ones you adopt. "Kept share" measures how close it's getting.
+- **Publishing and audience:** the Sunday letter, a weekly email ready to paste into Beehiiv, and reach and reactions recorded on each posted draft so reviews can see what lands.
+
 ### Targets for the first review (28 October)
 
 - [ ] A streak of 5 days or more
@@ -47,6 +55,9 @@ Each area below is scored from 1 (not working) to 10 (as good as it can be), wit
 - [ ] Edgework site reviewed; a go or no-go on launch
 - [ ] A posting channel chosen
 - [ ] Reminder email moved to Primary; no missed reminders all week
+- [ ] Telegram replies, Readwise and the Sunday letter switched on
+- [ ] The first Sunday letter sent
+- [ ] Reach and reactions recorded for every posted card
 
 ## Go deeper
 

@@ -4,7 +4,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.54';
 // itself to see what's been done and nags until it is. Runs from "The daily nudge"
 // workflow at 07:30, 12:30, 18:30 and 21:30 London time. The morning email always
 // goes; the later ones only go when a step is still open.
-// POST { dry: true } returns the email instead of sending it; { slot } forces a slot.
+// POST { dry: true } returns the email instead of sending it; { slot } forces a slot;
+// { telegram_webhook: true } connects the bot to telegramHook so Alex can reply to it.
 
 const APP = 'https://owl-farm-notes.base44.app';
 const LINKS = {
@@ -100,6 +101,22 @@ export default async function (req) {
       }
       const me = await telegram('getMe', {});
       return Response.json({ bot: me?.result?.username || null, ok: updates?.ok, error: updates?.description, chats: [...chats].map(([id, name]) => ({ id, name })) });
+    }
+
+    // Point the bot at telegramHook so replies reach Owl Farm. (This turns off getUpdates,
+    // so run telegram_setup first if TELEGRAM_CHAT_ID isn't set yet.)
+    if (payload?.telegram_webhook) {
+      const secret = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
+      if (!secret) return Response.json({ error: 'Set the TELEGRAM_WEBHOOK_SECRET secret first (letters, numbers, _ and -).' }, { status: 500 });
+      const hook = await telegram('setWebhook', { url: `${APP}/functions/telegramHook`, secret_token: secret, allowed_updates: ['message', 'callback_query'] });
+      const commands = await telegram('setMyCommands', {
+        commands: [
+          { command: 'pick', description: 'The best collision waiting on the Wire' },
+          { command: 'status', description: "What's done today" },
+          { command: 'help', description: 'How the bot works' },
+        ],
+      });
+      return Response.json({ webhook: hook, commands: commands?.ok });
     }
 
     const db = base44.asServiceRole.entities;
@@ -214,6 +231,21 @@ ${friday}
         telegramStatus = r?.ok ? 'sent' : `failed: ${r?.description}`;
       } catch (err) {
         telegramStatus = `failed: ${err.message}`;
+      }
+      // Until the Desk is done, follow the morning and midday nudges with the day's pick,
+      // so the whole routine can happen by replying in Telegram.
+      const hookSecret = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
+      if (hookSecret && !desk && waiting > 0 && (slot === 'morning' || slot === 'midday')) {
+        try {
+          await fetch(`${APP}/functions/telegramHook`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'x-telegram-bot-api-secret-token': hookSecret },
+            body: JSON.stringify({ internal: 'pick' }),
+          });
+          telegramStatus += ', pick sent';
+        } catch (err) {
+          telegramStatus += `, pick failed: ${err.message}`;
+        }
       }
     }
 

@@ -88,7 +88,7 @@ Return JSON: {"title","deck","pull" (key phrase in *asterisks*),"body"}`;
 }
 
 // --- v2: plan, draft, edit. ---
-async function draftV2(base44, { format, originType, originText, reaction, lensLines, resources = [] }) {
+async function draftV2(base44, { format, originType, originText, reaction, lensLines, resources = [], lessons = '' }) {
   const writerPrompt = `You are the drafting desk inside Owl Farm, the private newsroom behind Edgework, Alex Cheeseman's publication. You write first drafts that Alex will edit and publish under his own name.
 
 Alex's reaction is the spine. Build HIS argument from it; never swap in a different argument, and never just summarise the material.
@@ -102,6 +102,7 @@ ${reaction}
 ${lensLines || 'No thinker lenses selected.'}
 
 ${VOICE}
+${lessons}
 
 ${FLOURISH}
 
@@ -142,6 +143,7 @@ CHECKS (score each 1 to 5, 5 = excellent):
 opening (starts in a concrete scene or fact, no throat-clearing); enemy (names the false belief); stakes (why now, and for whom); line (a sentence people would repeat, used as the pull); voice (sounds like Alex, not like the source's writer or a generic AI); flourish (two or three personality moves, not more); specificity (at least one exact detail); ending (callback or short verdict); banned (none of the banned items); truth (every quote is word for word in the material and credited; every figure is in the material or framed as Alex's view); context (reads alone: the source is named and introduced, every person, idea, model and term is explained on first mention, nothing refers to things the reader can't see).
 
 ${VOICE}
+${lessons}
 
 ${FLOURISH}
 
@@ -294,7 +296,12 @@ export default async function (req) {
       }
     }
 
-    const args = { format, originType, originText, reaction, lensLines, resources };
+    // Rules learned from how Alex edits drafts (editLessons proposes them; he adopts them in Telegram).
+    const notes = await base44.asServiceRole.entities.VoiceNote.filter({ status: 'adopted' }, { sort: '-created_date', limit: 20 }).catch(() => null);
+    const adopted = (notes?.items || []).map((n) => `- ${n.rule}`);
+    const lessons = adopted.length ? `\nLEARNED FROM ALEX'S OWN EDITS (these beat the general voice notes above when they disagree):\n${adopted.join('\n')}\n` : '';
+
+    const args = { format, originType, originText, reaction, lensLines, resources, lessons };
     const result = payload?.variant === 'v1' ? await draftV1(base44, args) : await draftV2(base44, args);
 
     const body = tidy(result?.body);

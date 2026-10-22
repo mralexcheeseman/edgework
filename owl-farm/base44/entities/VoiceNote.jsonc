@@ -1,0 +1,48 @@
+{
+  "name": "VoiceNote",
+  "type": "object",
+  "properties": {
+    "rule": {
+      "type": "string",
+      "description": "One instruction for the Desk, learned from how Alex edits its drafts"
+    },
+    "evidence": {
+      "type": "string",
+      "description": "What Alex changed that shows it (before and after)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "adopted",
+        "rejected"
+      ],
+      "default": "proposed"
+    }
+  },
+  "required": [
+    "rule"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -14,7 +14,8 @@ export default function Archive() {
   const [drafts, setDrafts] = useState([]);
   const [assets, setAssets] = useState([]);
   const [draftTitles, setDraftTitles] = useState({});
-  const [openId, setOpenId] = useState('');
+  // ?draft=<id> (from Telegram) opens that draft straight away.
+  const [openId, setOpenId] = useState(() => new URLSearchParams(window.location.search).get('draft') || '');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

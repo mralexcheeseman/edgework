@@ -83,3 +83,6 @@
 - **Keep the system in the design repo**, and the apps pointing at it. When the site and the system disagree, the system wins.
 - **Credits:** spend builder credits on scaffolding, not on pixels.
 - **One Google Doc, one tab per doc.** The Google Doc mirrors GitHub in four tabs (Handbook, Prompts, Glossary, Scorecard) so its link never changes. Rebuild a tab from the Markdown rather than hand-editing it, keep tables out of numbered lists (they restart the numbering), pin table header rows and keep labels with their tables so nothing splits across pages.
+- **Test Base44 functions off the platform.** `owl-farm/scripts/tests` bundles each function with esbuild against a mock Base44 SDK, Telegram and Readwise, then runs the main paths under Node. It caught nothing dramatic, but it means a deploy no longer has to be the first test.
+- **Telegram webhooks retry.** If Owl Farm takes a minute to draft, Telegram may send the same update again. Write the update id on the record *before* drafting and skip any update already seen, or one reply becomes two drafts.
+- **Learning loops need a person in them.** The Desk proposes rules from Alex's edits, but only rules he adopts reach the prompt. Automatic rules would drift toward whatever he fixed last week.

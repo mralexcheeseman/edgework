@@ -1,6 +1,6 @@
 # The Edgework handbook
 
-**What this is.** Edgework is Alex Cheeseman's publication: short, opinionated pieces about how AI is changing marketing, work and judgement, published as typewritten cards and on the Edgework website. This handbook explains how to run it day to day with Owl Farm, the private app that does the reading and drafting. It takes about 15 minutes a day, plus 30 minutes on Fridays. You can read this page on its own; every term is explained below, and in full in the [glossary](glossary.md).
+**What this is.** Edgework is Alex Cheeseman's publication: short, opinionated pieces about how AI is changing marketing, work and judgement, published as typewritten cards and on the Edgework website. This handbook explains how to run it day to day with Owl Farm, the private app that does the reading and drafting. It takes about 15 minutes a day, plus 30 minutes on Fridays and 10 on Sundays. You can read this page on its own; every term is explained below, and in full in the [glossary](glossary.md).
 
 - **Prompts you can copy:** [`prompts.md`](prompts.md)
 - **Where we are and what's next:** [`scorecard.md`](scorecard.md)
@@ -61,6 +61,23 @@ Owl Farm checks its own records and messages you on **Telegram and email** at on
 Finish all three and the messages stop for the day. On Fridays the messages add the weekly list, and the longer piece counts as an open step. If the Wire has filed nothing in 48 hours, the message warns you.
 
 **Backstops that don't depend on Owl Farm:** the 07:30 calendar event, and a 21:45 calendar pop-up, "Edgework: card out today?". If you get the 21:45 pop-up but had no Telegram or email that day, the reminders are broken. Use the "Reminders stopped" prompt in [`prompts.md`](prompts.md).
+
+## Doing it all from Telegram
+
+Once it's switched on (see "Still to do" below), the whole daily routine can happen in the Telegram chat with [@Acowlfarm_bot](https://t.me/Acowlfarm_bot). The app is still there for editing and for making the card.
+
+1. **The pick.** Straight after the 07:30 message (and again at 12:30 if you haven't drafted), the bot sends **Today's pick**: the best collision waiting on the Wire. It shows the piece, who wrote it, a short summary, your Position and why they collide.
+2. **Reply with what you think.** Press and hold the message, choose Reply, and write a line or two. That's your reaction, the same as "What do you think?" on the Wire. Start with `rube:` for a Hey Rube, `expense:` for an Expense Report, or `essay:` / `routine:` for the longer shapes; anything else becomes a Dispatch.
+3. **The draft comes back** in about a minute, with buttons:
+   - **✅ Keep:** saves it and gives you a button to the Typewriter;
+   - **🔁 Redo:** a fresh draft from the same reaction;
+   - **As Hey Rube / As Dispatch / As Expense:** the same reaction in another shape;
+   - **🗑 Kill:** deletes the draft.
+   Or reply to the draft with a note ("shorter, open on the pit gate") and it redrafts with it.
+4. **Not this one?** Under the pick, **🗑 Kill** drops the collision and **↪ Another one** shows the next. Send `/pick` any time for a pick, `/status` for what's done today.
+5. **The card** still happens in the app: Keep, then **Make the card →**.
+
+**Example.** The pick is Seth Godin on choosing depth over easily measured numbers, against your Position that dashboards reward the wrong work. You reply: `rube: give a team a number and they'll hit it; whether the work got better is a different meeting`. A minute later a Hey Rube arrives. You tap **As Dispatch** to see the longer version, prefer the Hey Rube, scroll up, tap **Keep**, then **Make the card →**.
 
 ## Every day
 
@@ -155,6 +172,14 @@ Finish all three and the messages stop for the day. On Fridays the messages add 
 | 4. Positions | 5 min | In the [ledger](https://app.notion.com/p/3ff58b5148c4816fba94f3d91c7dc351), rewrite one Position marked "edit", then use the "Update a Position" prompt. |
 | 5. Thinkers (optional) | — | Drop a source that's gone quiet, or add a new free one with the "Add a thinker" prompt. |
 
+## Every Sunday (10 minutes)
+
+| Step | Time | How |
+| --- | --- | --- |
+| 1. The Sunday letter | 5 min | At 17:00 Owl Farm emails you the week's published pieces as one letter: an opener in your voice, the pieces, the best Go deeper links and three subject lines. Open a new post in [Beehiiv](https://app.beehiiv.com/posts/new) (the newsletter tool), paste it in, pick a subject and schedule it for Monday 07:00. Owl Farm can't press send for you; that stays your call. |
+| 2. Your numbers | 3 min | The same email lists last week's posts with no numbers yet. Open each, and under **After posting** add the post link, its reach (impressions or views) and its reactions (likes, comments, reposts and saves added together). The monthly review uses these to see which Positions and shapes land. |
+| 3. What your edits taught the Desk | 2 min | At 18:00, once you've edited three or more drafts, Telegram sends what the Desk learned from your changes: how much of its wording you kept, and up to four proposed rules (for example "Cut the first sentence when it explains instead of showing"). Tap **Adopt** on the ones you agree with. Every new draft follows them. |
+
 ## Worked example: one day, start to finish
 
 1. **07:30.** Telegram: "4 collisions waiting." You open the Wire.
@@ -188,6 +213,8 @@ A strong reaction has at least one of these: an opinion someone could disagree w
 | Draft doesn't sound like you | Your reaction was too vague | Rewrite step 3 with a story or a stronger opinion, then draft again. |
 | Red quote warning | A quote isn't word for word in the source | Fix it from the original, or cut it. |
 | No Telegram or email by 08:00 | Reminders broken | Use the "Reminders stopped" prompt. |
+| The bot doesn't answer your reply | The Telegram connection to Owl Farm is off | Use the "Reconnect the bot" prompt. The reminders keep working either way. |
+| Drafts keep making the same mistake | The Desk hasn't learned it yet | Fix it by hand in three drafts; the Sunday "What your edits taught the Desk" message will propose a rule. |
 | A card looks off (stain over text, wrong colours) | Visual bug | Shuffle marks. If it persists, use the "Visual bug" prompt. |
 
 ## Review
@@ -195,6 +222,15 @@ A strong reaction has at least one of these: an opinion someone could disagree w
 Every four weeks, you and Claude (the AI assistant that built and maintains Edgework) review the system together against [`scorecard.md`](scorecard.md). The first review is **Wednesday 28 October, 19:30**. Claude prepares the numbers beforehand; bring one draft you liked and one you didn't.
 
 ## Still to do (one-offs)
+
+**Switch on the new features.** They are built and tested, and switch on in this order:
+1. Reconnect Base44 in claude.ai (Settings → Connectors), then ask Claude: "Deploy the Owl Farm improvements" (the prompt is in [`prompts.md`](prompts.md)).
+2. **Telegram replies:** in Owl Farm's Base44 Secrets, add `TELEGRAM_WEBHOOK_SECRET` (any long string of letters, numbers, `_` or `-`). Claude then connects the bot.
+3. **Readwise:** copy your token from [readwise.io/access_token](https://readwise.io/access_token) and add it to Owl Farm's Secrets as `READWISE_TOKEN`. From the next 6am run, your highlights feed the Wire.
+4. **The Sunday letter:** decide where it goes: your existing Beehiiv newsletter *Beyond the Click*, or a new *Edgework* publication.
+5. **Posting channel:** choose LinkedIn, Instagram or both for the daily cards.
+
+**Other one-offs:**
 
 - Rewrite the Positions marked "edit" in the [Positions ledger](https://app.notion.com/p/3ff58b5148c4816fba94f3d91c7dc351) (25 of the 30), then decide whether to launch the Edgework site.
 - Delete the placeholder posts the Base44 builder created in the Edgework editor. They're marked as drafts, so the public never sees them.

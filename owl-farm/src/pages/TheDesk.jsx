@@ -170,6 +170,9 @@ export default function TheDesk() {
           ...(data.look_up || []).map((l) => `Look up: ${l}`),
         ].join('\n'),
         caption: data.caption || '',
+        // The Desk's own version, so "Learn from edits" can see what Alex changed.
+        original_title: data.title || '',
+        original_body: data.body || '',
       };
       if (spark) payload.spark = spark.id;
       if (collision) payload.collision = collision.id;

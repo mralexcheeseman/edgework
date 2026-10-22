@@ -1,7 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.54';
 
-// The 6am Wire: pull new posts from active thinkers' feeds, then find where each one
-// collides with Alex's Positions. Keeps at most MAX_COLLISIONS new collisions per run.
+// The 6am Wire: pull Alex's new Readwise highlights and new posts from active thinkers'
+// feeds, then find where each one collides with Alex's Positions. Keeps at most MAX_COLLISIONS new collisions per run.
 // Runs from the scheduled workflow (with the OWL_WIRE_KEY secret) or from an admin's
 // "Run the wire now" button.
 
@@ -12,6 +12,7 @@ const MAX_SOURCES = 15;
 const MAX_COLLISIONS = 10;
 
 const items = (res) => (Array.isArray(res) ? res : res?.items || []);
+const clip = (s, n) => (String(s || '').length > n ? `${String(s).slice(0, n - 1)}…` : String(s || ''));
 
 const decode = (s) =>
   String(s || '')
@@ -96,6 +97,37 @@ async function fullOrFeed(url, fallback) {
   return { text: fallback, full: false };
 }
 
+// Alex's own Readwise highlights (books, articles, podcasts, anything he saved), via the
+// READWISE_TOKEN secret (readwise.io/access_token). The strongest signal the Wire gets,
+// because he chose every line, and it covers writers who have no free feed.
+const MAX_READWISE = 8;
+
+async function readwiseBooks(sinceMs) {
+  const token = Deno.env.get('READWISE_TOKEN');
+  if (!token) return [];
+  const books = [];
+  let cursor = null;
+  let pages = 0;
+  do {
+    const u = new URL('https://readwise.io/api/v2/export/');
+    u.searchParams.set('updatedAfter', new Date(sinceMs).toISOString());
+    if (cursor) u.searchParams.set('pageCursor', cursor);
+    const res = await fetch(u, { headers: { Authorization: `Token ${token}` } });
+    if (!res.ok) throw new Error(`Readwise HTTP ${res.status}`);
+    const data = await res.json();
+    books.push(...(data.results || []));
+    cursor = data.nextPageCursor;
+    pages += 1;
+  } while (cursor && pages < 3);
+  return books
+    .map((b) => ({
+      book: b,
+      fresh: (b.highlights || []).filter((h) => !h.is_deleted && h.text && new Date(h.highlighted_at || h.created_at || 0).getTime() >= sinceMs),
+    }))
+    .filter((x) => x.fresh.length && x.fresh.reduce((n, h) => n + h.text.length, 0) >= 80)
+    .slice(0, MAX_READWISE);
+}
+
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -162,20 +194,12 @@ export default async function (req) {
     const byId = new Map(positions.map((p) => [String(p.id), p]));
     const candidates = [];
 
-    let skipped = 0;
-    for (const { thinker, entry } of fresh) {
-      const { text, full } = await fullOrFeed(entry.url, entry.text);
-      // Only file pieces Alex can actually read: skip paywalled or blocked articles.
-      if (!full) {
-        // Remember it, so tomorrow's run doesn't fetch it again.
-        await db.SourceItem.create({ title: entry.title.slice(0, 300), url: entry.url, thinker: thinker.name, read_full: false, lines: [] });
-        skipped += 1;
-        continue;
-      }
-      const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
-        prompt: `You read for Alex Cheeseman, who writes Edgework. Here is a new piece by ${thinker.name}.
+    // Read a piece and find where it collides with the Positions. `lead` says what the text is.
+    const readAndCollide = (lead, title, text) =>
+      base44.asServiceRole.integrations.Core.InvokeLLM({
+        prompt: `You read for Alex Cheeseman, who writes Edgework. ${lead}
 
-TITLE: ${entry.title}
+TITLE: ${title}
 TEXT:
 ${text}
 
@@ -207,6 +231,68 @@ ${catalogue}`,
         },
       });
 
+    const addCandidates = (result, sourceId, minStrength, bonus) => {
+      for (const c of (result?.collisions || []).slice(0, 2)) {
+        const position = byId.get(String(c?.position_id || ''));
+        if (!position || (Number(c?.strength) || 0) < minStrength) continue;
+        const relation = RELATIONS.includes(c?.relation) ? c.relation : 'extends';
+        const score = (Number(c?.strength) || 3) + (position.conviction || 3) + (relation === 'challenges' ? 1 : 0) + bonus;
+        candidates.push({ score, record: { source_item: sourceId, position: position.id, relation, why: String(c?.why || '').slice(0, 600), status: 'new' } });
+      }
+    };
+
+    // Readwise first: Alex's highlights clear a lower bar (strength 3) and rank higher.
+    let highlighted = 0;
+    let readwiseError = null;
+    try {
+      for (const { book, fresh: lines } of await readwiseBooks(since)) {
+        const url = book.source_url || book.unique_url || `https://readwise.io/bookreview/${book.user_book_id}`;
+        const author = book.author || '';
+        const highlightTexts = lines.map((h) => String(h.text).slice(0, 600));
+        const notes = lines.filter((h) => h.note).map((h) => `- On "${clip(h.text, 80)}", Alex noted: ${h.note}`);
+        const existing = items(await db.SourceItem.filter({ url }, { limit: 1 }))[0];
+        const known = new Set(existing?.highlights || []);
+        const newLines = highlightTexts.filter((t) => !known.has(t));
+        if (!newLines.length) continue;
+        // Articles are read in full where possible; books and podcasts rest on the highlights.
+        const article = book.category === 'articles' && book.source_url ? await fullOrFeed(book.source_url, '') : { text: '', full: false };
+        const text = [
+          `LINES ALEX HIGHLIGHTED (he chose these):\n${newLines.map((t) => `- "${t}"`).join('\n')}`,
+          notes.length ? `HIS NOTES:\n${notes.join('\n')}` : '',
+          article.full ? `THE FULL PIECE:\n${article.text}` : '',
+        ].filter(Boolean).join('\n\n');
+        const kind = { books: 'a book', articles: 'an article', podcasts: 'a podcast', tweets: 'a post' }[book.category] || 'a piece';
+        const result = await readAndCollide(`Alex highlighted these lines in ${kind}${author ? ` by ${author}` : ''} in Readwise. Find collisions in what he highlighted.`, book.title, text);
+        const fields = {
+          highlights: [...(existing?.highlights || []), ...newLines].slice(-30),
+          summary: String(result?.summary || existing?.summary || '').slice(0, 1500),
+          core_claim: String(result?.core_claim || existing?.core_claim || '').slice(0, 500),
+          quote: String(result?.quote || existing?.quote || '').slice(0, 500),
+          lines: article.full ? (result?.lines || []).map((l) => String(l).slice(0, 400)).slice(0, 5) : existing?.lines || [],
+          read_full: article.full || !!existing?.read_full,
+        };
+        const source = existing
+          ? { ...existing, ...(await db.SourceItem.update(existing.id, fields)) }
+          : await db.SourceItem.create({ title: String(book.title || 'Untitled').slice(0, 300), url, thinker: author.slice(0, 120), ...fields });
+        addCandidates(result, existing?.id || source.id, 3, 1);
+        highlighted += 1;
+      }
+    } catch (err) {
+      readwiseError = err.message;
+    }
+
+    let skipped = 0;
+    for (const { thinker, entry } of fresh) {
+      const { text, full } = await fullOrFeed(entry.url, entry.text);
+      // Only file pieces Alex can actually read: skip paywalled or blocked articles.
+      if (!full) {
+        // Remember it, so tomorrow's run doesn't fetch it again.
+        await db.SourceItem.create({ title: entry.title.slice(0, 300), url: entry.url, thinker: thinker.name, read_full: false, lines: [] });
+        skipped += 1;
+        continue;
+      }
+      const result = await readAndCollide(`Here is a new piece by ${thinker.name}.`, entry.title, text);
+
       const source = await db.SourceItem.create({
         title: entry.title.slice(0, 300),
         url: entry.url,
@@ -219,13 +305,7 @@ ${catalogue}`,
         read_full: full,
       });
 
-      for (const c of (result?.collisions || []).slice(0, 2)) {
-        const position = byId.get(String(c?.position_id || ''));
-        if (!position || (Number(c?.strength) || 0) < 4) continue;
-        const relation = RELATIONS.includes(c?.relation) ? c.relation : 'extends';
-        const score = (Number(c?.strength) || 3) + (position.conviction || 3) + (relation === 'challenges' ? 1 : 0);
-        candidates.push({ score, record: { source_item: source.id, position: position.id, relation, why: String(c?.why || '').slice(0, 600), status: 'new' } });
-      }
+      addCandidates(result, source.id, 4, 0);
     }
 
     const keep = candidates.sort((a, b) => b.score - a.score).slice(0, MAX_COLLISIONS).map((c) => c.record);
@@ -250,7 +330,7 @@ ${catalogue}`,
       reread += 1;
     }
 
-    return Response.json({ feeds: thinkers.length, sources: fresh.length - skipped, skipped_paywalled: skipped, collisions: keep.length, reread, feed_errors: feedErrors });
+    return Response.json({ feeds: thinkers.length, readwise: highlighted, readwise_error: readwiseError, sources: fresh.length - skipped, skipped_paywalled: skipped, collisions: keep.length, reread, feed_errors: feedErrors });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }

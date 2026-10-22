@@ -60,6 +60,10 @@ Drafting uses Claude Opus 5.5, an AI model made by Anthropic, run through Base44
 
 **The Typewriter.** Turns a draft into an image to post ([/typewriter](https://owl-farm-notes.base44.app/typewriter)): typewritten text on paper with real scanned coffee stains, tape and red pen. Sizes are 1080 × 1350 (a portrait post) and 1080 × 1920 (a phone-screen reel).
 
+**The pick.** The one collision the Telegram bot sends each morning for Alex to react to by replying. It's the newest collision he hasn't seen yet; **↪ Another one** moves to the next.
+
+**The Sunday letter.** A weekly email to readers, built by Owl Farm every Sunday from the pieces Alex published that week. Owl Farm writes it; Alex pastes it into **Beehiiv** (the newsletter platform at [beehiiv.com](https://www.beehiiv.com)) and sends it. A list of email readers is an audience he owns, unlike followers on a social network.
+
 **The Wire.** Owl Farm's home page and the daily reading machine. Every day at 6am (London) it reads new, free-to-read pieces from Alex's thinkers, keeps only those it can read in full, and files collisions with his Positions: at most 10 a day, and only strong matches.
 
 ## Formats (the shapes a draft can take)
@@ -131,9 +135,19 @@ The Desk flags any such reference in red.
 
 **Marks.** Real scans of coffee rings, splashes, burns, tape and highlighter, with the paper removed so they sit on any card. They're never drawn or generated as stains.
 
+**Kept share.** How much of the Desk's wording survived Alex's edit: the share of the draft's original words still in the version he kept. Shown on every edited draft and in the Sunday message. Rising over time means the Desk is learning his voice.
+
+**Readwise.** An app that collects the passages Alex highlights in books, articles and podcasts ([readwise.io](https://readwise.io)). The Wire reads his new highlights every morning, before the feeds, because a line he chose is a stronger signal than anything a feed sends.
+
+**Reach and reactions.** What a posted card did a week later. Reach is impressions or views; reactions are likes, comments, reposts and saves added together. Alex records both in the draft, under "After posting", so reviews can compare Positions and shapes by what readers did.
+
 **Streak.** The number of days in a row Alex finished all three daily steps (a card exported or a draft published).
 
 **Telegram bot.** [@Acowlfarm_bot](https://t.me/Acowlfarm_bot): the account that sends Alex his reminders on Telegram.
+
+**Voice rules.** Instructions the Desk learned from how Alex edits its drafts. Every Sunday the `editLessons` function compares the Desk's version of each draft with the one he kept and proposes up to four rules; he adopts or rejects each in Telegram. Adopted rules go into every new draft and override the general voice notes where they disagree.
+
+**Webhook.** The way Telegram passes Alex's replies to Owl Farm: Telegram calls the `telegramHook` function each time he writes to the bot, signed with a secret so nobody else can.
 
 **TT2020.** A free typewriter font in which no two letters print quite the same, like a real typewriter. Edgework uses it for everything meant to be read.
 

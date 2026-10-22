@@ -1,0 +1,16 @@
+import { state, createClientFromRequest } from './mock.mjs';
+import nudge from './dailyNudge.mjs';
+const assert = (c, m) => { if (!c) { console.log('FAIL', m); process.exitCode = 1; } else console.log('ok  ', m); };
+const db = createClientFromRequest().asServiceRole.entities;
+state.env = { OWL_WIRE_KEY: 'k', TELEGRAM_BOT_TOKEN: 't', TELEGRAM_CHAT_ID: '42', NUDGE_EMAIL: 'a@b.c', TELEGRAM_WEBHOOK_SECRET: 's3' };
+const call = (b) => nudge(new Request('https://x', { method: 'POST', body: JSON.stringify({ key: 'k', ...b }) })).then((r) => r.json());
+await db.Collision.create({ status: 'new', source_item: 'x', position: 'y', relation: 'supports' });
+let r = await call({ slot: 'morning' });
+const hookCall = state.calls.find((c) => c.url.endsWith('/functions/telegramHook'));
+assert(r.telegram === 'sent, pick sent' && hookCall.body.internal === 'pick' && hookCall.headers['x-telegram-bot-api-secret-token'] === 's3', 'morning sends pick: ' + r.telegram);
+state.calls.length = 0;
+r = await call({ slot: 'evening' });
+assert(!state.calls.some((c) => c.url.endsWith('/functions/telegramHook')), 'evening does not send pick');
+r = await call({ telegram_webhook: true });
+const set = state.sent.find((s) => s.method === 'setWebhook');
+assert(set.url === 'https://owl-farm-notes.base44.app/functions/telegramHook' && set.secret_token === 's3', 'webhook set');

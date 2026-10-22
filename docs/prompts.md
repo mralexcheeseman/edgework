@@ -96,8 +96,14 @@ Use one when you're stuck. Each has a filled-in example underneath.
 ### Sync to GitHub
 > Sync Owl Farm (Base44 app 6ad79082c42f60485f1e32ef) and the Edgework site (6ad8b0ed795af7aa9ead4d02) into mralexcheeseman/edgework, following docs/sync.md. Redact any secret. Commit, push, and add anything we learned to docs/learnings.md.
 
+### Deploy the Owl Farm improvements
+> Deploy the Owl Farm code in mralexcheeseman/edgework (owl-farm/) to Base44 app 6ad79082c42f60485f1e32ef: the new entity fields and VoiceNote entity, the functions telegramHook, editLessons and weeklyDigest, the changed dailyWire, dailyNudge and generateDraft, the Desk, Archive and draft editor changes, and the workflows "Learn from edits" and "The Sunday letter" (with the real OWL_WIRE_KEY in their payloads, never committed). Run owl-farm/scripts/tests first. Then, if TELEGRAM_WEBHOOK_SECRET is set, call dailyNudge with telegram_webhook: true and send /pick to the bot to check it answers. Make a checkpoint.
+
+### Reconnect the bot
+> The Owl Farm Telegram bot doesn't answer replies. Check Telegram's getWebhookInfo for the bot, the telegramHook logs in Base44 app 6ad79082c42f60485f1e32ef, and that the TELEGRAM_WEBHOOK_SECRET secret is set; then call dailyNudge with telegram_webhook: true and test with /pick.
+
 ### Monthly review
-> Run the Edgework review. Using Owl Farm (Base44 app 6ad79082c42f60485f1e32ef), count since the last review: collisions filed, kept and killed; drafts by format; cards exported; days with all three steps done; current streak; Wire runs that failed. Score each line of docs/scorecard.md in mralexcheeseman/edgework from 1 to 10 with the evidence, compare with last time, name the three changes that would move the score most, and update the scorecard.
+> Run the Edgework review. Using Owl Farm (Base44 app 6ad79082c42f60485f1e32ef), count since the last review: collisions filed, kept and killed (and how many came from Readwise highlights); drafts by format, and how many were made from Telegram; cards exported; days with all three steps done; current streak; Wire runs that failed; the average kept share of edited drafts and the voice rules adopted; reach and reactions by Position and by shape for posted cards; Sunday letters sent. Score each line of docs/scorecard.md in mralexcheeseman/edgework from 1 to 10 with the evidence, compare with last time, name the three changes that would move the score most, and update the scorecard.
 
 ## Go deeper
 

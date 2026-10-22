@@ -12,7 +12,7 @@ Ask Claude: **"Sync Owl Farm and the Edgework site from Base44 into the edgework
    `src base44 scripts public index.html package.json tailwind.config.js vite.config.js postcss.config.js jsconfig.json components.json eslint.config.js`,
    excluding `src/components/ui`, `node_modules`, `dist`, `.git`, `public/marks`, `public/fonts` and the generated auth pages
    (`Register`, `ResetPassword`, `ForgotPassword`, `OAuthConsent`).
-2. **Blank secrets before anything leaves the sandbox.** The Wire workflow (`base44/workflows/The 6am Wire.jsonc`) carries the `OWL_WIRE_KEY` value in its payload; replace it with `<OWL_WIRE_KEY: set in Base44 secrets>`.
+2. **Blank secrets before anything leaves the sandbox.** Every workflow in `base44/workflows/` (the 6am Wire, the daily nudge, Learn from edits, the Sunday letter) can carry the `OWL_WIRE_KEY` value in its payload; replace it with `<OWL_WIRE_KEY: set in Base44 secrets>`.
 3. Unpack into `owl-farm/` or `edgework-site/`, replacing the old snapshot.
 4. Scan before committing:
    `grep -rnE "ghp_|sk-[A-Za-z0-9]{20}|AKIA|Bearer [A-Za-z0-9]|preview_token" --exclude-dir=.git .`

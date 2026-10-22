@@ -1,0 +1,43 @@
+{
+  "name": "Learn from edits",
+  "description": "Sundays: compares the Desk's drafts with Alex's edited versions and proposes voice rules in Telegram.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 18 * * 0",
+      "one_time_date": null,
+      "timezone": "Europe/London",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "do": [
+      {
+        "learn": {
+          "call": "invoke_backend_function",
+          "then": "end",
+          "with": {
+            "function_name": "editLessons",
+            "payload": {
+              "key": "<OWL_WIRE_KEY: set in Base44 secrets>"
+            }
+          }
+        }
+      }
+    ],
+    "document": {
+      "dsl": "1.0.0",
+      "name": "learn-from-edits",
+      "namespace": "base44",
+      "version": "1.0.0"
+    }
+  }
+}

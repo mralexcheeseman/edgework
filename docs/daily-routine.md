@@ -72,8 +72,8 @@ Once it's switched on (see "Still to do" below), the whole daily routine can hap
    - **✅ Keep:** saves it and gives you a button to the Typewriter;
    - **🔁 Redo:** a fresh draft from the same reaction;
    - **As Hey Rube / As Dispatch / As Expense:** the same reaction in another shape;
-   - **🗑 Kill:** deletes the draft.
-   Or reply to the draft with a note ("shorter, open on the pit gate") and it redrafts with it.
+   - **🗑 Kill:** deletes the draft;
+   - **reply to the draft** with a note ("shorter, open on the pit gate") and it redrafts with it.
 4. **Not this one?** Under the pick, **🗑 Kill** drops the collision and **↪ Another one** shows the next. Send `/pick` any time for a pick, `/status` for what's done today.
 5. **The card** still happens in the app: Keep, then **Make the card →**.
 

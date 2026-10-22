@@ -82,3 +82,4 @@
 - **Design on a canvas first.** Three identity directions on the Claude Design canvas, then two more after feedback, got to "Edgework" in a day; building straight in code would not have.
 - **Keep the system in the design repo**, and the apps pointing at it. When the site and the system disagree, the system wins.
 - **Credits:** spend builder credits on scaffolding, not on pixels.
+- **One Google Doc, one tab per doc.** The Google Doc mirrors GitHub in four tabs (Handbook, Prompts, Glossary, Scorecard) so its link never changes. Rebuild a tab from the Markdown rather than hand-editing it, keep tables out of numbered lists (they restart the numbering), pin table header rows and keep labels with their tables so nothing splits across pages.

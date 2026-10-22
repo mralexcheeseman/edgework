@@ -35,7 +35,7 @@ Each area below is scored from 1 (not working) to 10 (as good as it can be), wit
 | **Habit** | 2 | Day one: streak 0, no card shipped. | A five-day streak by the first review. |
 | **Reminders** | 9 | Telegram and email at 07:30, 12:30, 18:30 and 21:30, sent only for steps not yet done, plus two calendar pop-ups as a backstop. All tested on 21 October. Gmail filed the email under the Updates tab, where it's easy to miss. | Move the email to Primary in Gmail; check nothing is missed for a week. |
 | **Publishing and audience** | 1 | Nothing posted yet. The Edgework site is private, waiting for Alex's review. No decision on where cards go (LinkedIn, Instagram or both). | Review the site, choose the channel, post the first five cards. |
-| **Documentation and reuse** | 8 | Handbook, prompts, glossary, voice guide, craft playbook, learnings and all code are on GitHub. Each doc now explains its terms and points to further reading. The Google Doc copy is out of date. | Bring the Google Doc up to date (needs the Google Docs connector turned on). |
+| **Documentation and reuse** | 8 | Handbook, prompts, glossary, voice guide, craft playbook, learnings and all code are on GitHub. Each doc explains its terms and points to further reading. The Google Doc mirrors the handbook, prompts, glossary and scorecard in four tabs. | Keep GitHub and the Google Doc in step after every change; add a worked example of a published card once there is one. |
 
 **Overall:** (6 + 6 + 7 + 8 + 2×2 + 9 + 1×2 + 8) / 10 = **5.0**. The machine on its own (a plain average of all eight areas) scores 5.9.
 

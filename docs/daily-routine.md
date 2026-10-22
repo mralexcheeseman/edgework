@@ -5,7 +5,7 @@
 - **Prompts you can copy:** [`prompts.md`](prompts.md)
 - **Where we are and what's next:** [`scorecard.md`](scorecard.md)
 - **Every term explained:** [`glossary.md`](glossary.md)
-- **Google Docs copy:** [Edgework: the daily routine](https://docs.google.com/document/d/1gikugQ1lH_wYqYDRVcQObTYvu3IeZxAYU5rOnohq720/edit)
+- **Google Docs copy:** [Edgework: the daily routine](https://docs.google.com/document/d/1gikugQ1lH_wYqYDRVcQObTYvu3IeZxAYU5rOnohq720/edit), with this handbook, the prompts, the glossary and the scorecard in four tabs
 
 ## The words you'll meet
 
@@ -193,6 +193,12 @@ A strong reaction has at least one of these: an opinion someone could disagree w
 ## Review
 
 Every four weeks, you and Claude (the AI assistant that built and maintains Edgework) review the system together against [`scorecard.md`](scorecard.md). The first review is **Wednesday 28 October, 19:30**. Claude prepares the numbers beforehand; bring one draft you liked and one you didn't.
+
+## Still to do (one-offs)
+
+- Rewrite the Positions marked "edit" in the [Positions ledger](https://app.notion.com/p/3ff58b5148c4816fba94f3d91c7dc351) (25 of the 30), then decide whether to launch the Edgework site.
+- Delete the placeholder posts the Base44 builder created in the Edgework editor. They're marked as drafts, so the public never sees them.
+- Reel rendering: export Routines as video (MP4 with a typewriter sound) instead of a still image.
 
 ## Go deeper
 

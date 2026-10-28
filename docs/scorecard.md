@@ -22,6 +22,60 @@ Each area below is scored from 1 (not working) to 10 (as good as it can be), wit
 
 **The overall score** counts Habit and Publishing twice, because a working machine that nobody uses or reads is worth little.
 
+## 28 October 2026 · first review · 5.1 / 10
+
+**In one line:** the machine ran every day and the reminders all arrived, but only one day got all three steps done and nothing reached a reader. The drop is between a draft and a card.
+
+**Counted from Owl Farm, 22 to 28 October** (28 October up to 17:00 UTC):
+- **Collisions:** 24 filed, 9 kept, 0 killed, 15 still waiting (19 waiting in all, counting 4 from the baseline). None came from Readwise, which isn't switched on yet.
+- **Drafts:** 4 new, all on the new Desk: 2 dispatches (22 and 26 October) and 2 essays (23 and 27 October). One was exported, three are still at "drafted", and none was made from Telegram.
+- **Cards:** 2 exported on 26 October, both for one draft ("Somebody Should Always Own the Room"), one on the Dispatch template and one on the Routine template. No draft is marked published, so there's no record of a card being posted.
+- **Days with each step done:** the Wire on 6 of 7 days, the Desk on 4 of 7 and the Typewriter on 1 of 7. **All three were done on 1 day** (26 October).
+- **Streak:** 0 today. The best run was 1 day.
+- **Wire runs:** the 6am run filed collisions on all 7 days, so there were no failed runs. Base44 keeps no older log lines for it.
+- **Reminder emails:** 25 sent and 25 arrived, out of 25 due (the 21:30 on 26 October was rightly skipped because the day was done). All 25 went to Gmail's **Updates** tab, not Primary. Base44's logs only keep the last two nudge runs (both succeeded), and those don't show whether Telegram delivered, so Telegram delivery isn't checked here.
+- **Not measurable yet:** kept share, voice rules, reach and reactions, and Sunday letters. These features are built but not switched on.
+
+| Area | Score | Change | Evidence | What moves it up |
+| --- | --- | --- | --- | --- |
+| **Sources** | 6 | = | The Wire ran all 7 days and filed 24 collisions, about 3 a day. It still reads only the 17 free feeds; Readwise isn't switched on. | Switch on Readwise intake. |
+| **Collisions** | 5 | −1 | 9 kept and none killed, so the queue only grows: 19 are waiting, some from 21 October. Picking one a day and leaving the rest makes the Wire noisier each morning. | Let collisions that have waited 3 days lapse on their own, so the Wire only shows fresh ones. |
+| **Drafts** | 7 | = | 4 real drafts on the new Desk, including 2 essays. Only one was taken further, and the system can't yet tell how much of each you kept. | Switch on "learn from edits"; take each draft to a card the same day. |
+| **Cards** | 8 | = | The first two cards were exported on 26 October, on two templates. Nothing is recorded on how they looked on a phone or how they did once posted. | Post a card and note anything that looks wrong on a phone. |
+| **Habit** | 3 | +1 | 1 full day out of 7, and the streak is 0. You start most days (the Wire on 6 days), but the Desk drops off at 4 days and the Typewriter at 1. | Make the card a single tap after a draft is kept, and do the Desk from Telegram. |
+| **Reminders** | 9 | = | Every email that was due arrived. They still land in Updates, and Telegram delivery isn't logged. | Move the email to Primary; log Telegram's reply in the nudge's result. |
+| **Publishing and audience** | 1 | = | Nothing is marked published. The site hasn't been reviewed and no posting channel has been chosen. | Choose a channel and post the 26 October card this week. |
+| **Documentation and reuse** | 8 | = | The handbook, prompts and learnings were updated with each change. The Google Doc's Scorecard tab doesn't have this review yet. | Copy this review into the Google Doc. |
+
+**Overall:** (6 + 5 + 7 + 8 + 3×2 + 9 + 1×2 + 8) / 10 = **5.1**, up from 5.0. The machine on its own (a plain average) scores 5.9, the same as at the baseline.
+
+### Targets from the baseline
+
+- [ ] A streak of 5 days or more: **missed** (best 1)
+- [ ] 5 cards exported and posted: **missed** (2 exported, none recorded as posted)
+- [x] One longer Friday piece: **hit as a draft** ("Nobody Is Coming to Say Yes", an essay, Friday 23 October), not yet published
+- [ ] Edgework site reviewed; a go or no-go on launch: **missed**
+- [ ] A posting channel chosen: **missed**
+- [ ] Reminder email moved to Primary; no missed reminders all week: **half**. None were missed, but all landed in Updates.
+- [ ] Telegram replies, Readwise and the Sunday letter switched on: **missed** (waiting on your go-ahead and two secrets)
+- [ ] The first Sunday letter sent: **missed** (not switched on)
+- [ ] Reach and reactions recorded for every posted card: **not applicable** (nothing recorded as posted)
+
+### The three changes that would move the score most
+
+1. **Switch on what's already built:** Telegram replies, Readwise and the Sunday letter. The Desk is where most days stop, and replying to the morning pick on your phone makes the Desk a one-line job. This needs the bot token reissued, TELEGRAM_WEBHOOK_SECRET and READWISE_TOKEN set, and a go-ahead to deploy. Moves Habit, Sources and Publishing.
+2. **Make the card one tap after Keep.** Of 4 drafts, 1 became a card. If the Typewriter made a card on the default template as soon as a draft is kept, step 3 would be a check and a save, not a separate session. Moves Habit and Cards.
+3. **Choose a channel and post this week.** Publishing counts double and is still at 1. Post the 26 October card, mark it published, and decide go or no-go on the site. Moves Publishing.
+
+### Targets for the next review (25 November)
+
+- [ ] A streak of 5 days or more
+- [ ] 10 cards posted and marked published, with reach and reactions recorded
+- [ ] Telegram replies, Readwise and the Sunday letter switched on; 3 Sunday letters sent
+- [ ] A channel chosen and the site's go or no-go decided
+- [ ] No collisions waiting more than 3 days
+- [ ] Reminder email in Primary
+
 ## 21 October 2026 · baseline · 5.0 / 10
 
 **In one line:** the machine is built and tested; the daily habit and the audience don't exist yet.

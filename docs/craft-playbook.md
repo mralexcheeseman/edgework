@@ -25,7 +25,7 @@ The personality layer, applied lightly. A draft should use **two or three** of t
 2. **One outrageous but exact simile**, used once (Schafer). It must be specific and slightly too much.
 3. **A bracketed aside** that tells the truth the sentence was too polite to say (Scaman, Goodwin).
 4. **Repetition as rhythm**: the same opening words three times, then break the pattern (Schafer, Holiday).
-5. **A confession**: one sentence admitting Alex got this wrong too, or does it himself (Schafer, Housel).
+5. **A confession**: one sentence admitting Alex got this wrong too, or does it himself (Schafer, Housel). Only when Alex's reaction supplies it; the Desk never invents his experience.
 6. **The dry understatement** instead of outrage (Carr).
 
 ## Recipes by format
@@ -38,8 +38,9 @@ One claim with a twist, built on a concrete noun. Reads like something you'd hea
 2. The jab: what's really going on, often in brackets.
 3. Alex's position, stated in a two-beat reframe.
 4. One specific piece of evidence from the material, quoted exactly and credited.
-5. What it means for the reader this week.
-6. A callback to the opening scene, landing on the pull line.
+5. The strongest objection a sharp reader would raise, in one or two sentences, answered. The real pushback, not a minor caveat.
+6. What it means for the reader this week.
+7. A callback to the opening scene, landing on the pull line.
 
 **Routine** (60 to 90 seconds, 150 to 220 words; Holiday, Schafer, Alex's essays)
 Written for the ear, one sentence per line.
@@ -74,9 +75,41 @@ The second pass scores the draft on each point and rewrites anything that fails:
 - **Flourish:** two or three of the flourish rules, not more.
 - **Specificity:** at least one exact detail (a number, a name, a place, an object).
 - **Ending:** calls back to the opening, or lands on a short verdict.
-- **Banned:** no em dashes, no "Not X, but Y", no filler words, no stacked questions, no hype, no US spelling.
+- **Banned:** no em dashes, no contrast framing ("It's not X, it's Y", "That is not X. That is Y", "Not X, but Y"), no signposting, no filler words, no stacked questions, no hype, no US spelling, no research tags in the prose.
 - **Truth:** every quote appears in the material word for word, and every figure is in the material or clearly marked as Alex's view.
 - **Context (reads alone):** the source is named with who they are; every person, idea, model and term is explained on first mention; nothing refers to things the reader can't see ("Position #22", "the Wire", "this piece").
+- **Objection** (Dispatch and essay): the most obvious pushback is named and answered, not a side caveat.
+- **Fresh:** the opening scene and the phrasing are new. Nothing lifted from the examples in `voice.md`, at most one list of three, at most one two-beat reframe, no invented first-person experience.
+
+## The house lint
+
+The editor scores its own work, so it tends to pass itself. These checks run in code after the editor pass (Owl Farm, `base44/functions/generateDraft/entry.ts`, `LINT_FIX` and `lintWarnings`). Quoted material is skipped.
+
+| Check | What it catches | What happens |
+| --- | --- | --- |
+| Contrast framing | "It's not X. It's Y", "X isn't A. It's B", "Not X, but Y", "The question isn't X" | Repair pass |
+| Signposting | "Here is the...", "The truth is", "the number that matters" | Repair pass |
+| Glossed household names | "ChatGPT (OpenAI's chatbot...)" | Repair pass |
+| Self-reference | "on my site" | Repair pass |
+| Research tags | [Sourced], [Observed], [Model] | Repair pass |
+| Old links | `thelastanimal.base44.app` (also rewritten to `thelastanimal.com` on publish) | Repair pass |
+| Consultant and hype words, exclamation marks | leverage, unlock, delve, seamless and the rest | Repair pass |
+| Lists of three | more than one "A, B and C" in a piece | Repair pass |
+| Lifted examples | a line from the voice examples ("presenting a dashboard") | Repair pass |
+| Repeated opening | the first six words match one of the last 15 drafts | Repair pass |
+| First-person claims | "I've sat in that meeting" | Warning for Alex to confirm; never auto-fixed |
+
+The repair pass is one extra model call that fixes only the listed problems and keeps every fact, quote and link. Anything still failing is returned as a warning that starts "Lint:".
+
+Editing rules that code cannot check, learned from the same review:
+
+1. **Open on the best scene.** If the strongest image is buried in the middle, move it to the top and let the argument follow.
+2. **Answer the real objection.** "The sample leans consumer" is a caveat. "Seven per cent of an ocean is still a lot of water" is the objection.
+3. **Mark a forecast as a scenario.** One model run or one chief executive's quote is a scenario; say so, and put the strongest checkable number beside it.
+4. **Bring the doubt forward.** The section that admits what does not fit belongs in the middle, with a real person in it, not at the end.
+5. **One borrowed thinker per piece** unless each one does different work.
+6. **A title does one job.** A second clause after a colon is usually the deck.
+7. **Deck, excerpt and description are three different lines.** The description ends on a full sentence within 160 characters.
 
 ## The read-alone rule
 
@@ -86,6 +119,7 @@ Every piece is written for a stranger. The reader has never seen the source, nev
 2. **Introduce every person, idea and model in a clause:** "Juan Tamariz, the Spanish magician", "the McNamara fallacy (trusting only what you can count)".
 3. **Spell out acronyms:** "OKRs (objectives and key results, the quarterly goals most teams live by)".
 4. **No insider references:** not "Position #22", not "the collision", not "as I've argued" without saying where.
+   The reader is a senior marketer or operator, so household names (ChatGPT, Google, Amazon) are never glossed. The piece is published on The Last Animal, so Alex's earlier essays are named by title only, never as "on my site".
 5. **Hey Rube is too short to explain,** so it uses words that need no explaining, and the deck carries the context.
 6. **Every piece ends with Go deeper:** two to four real links (the source, Alex's essay on the Position, the writer's wider work), each with a line on what the reader will get from it.
 

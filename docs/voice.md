@@ -28,10 +28,10 @@ The scene is ordinary, physical and specific (a gasket, a number plate, four poi
 ## Signature moves
 
 - **The short punch after a long sentence.** "Not anymore." "Done." "They are wrong." One to four words, its own paragraph.
-- **The reframe in two beats.** "Trust didn't disappear. It went sideways." "The funnel didn't break. It folded." Old belief, then the sharper picture, in two short sentences.
+- **The reframe in two beats.** "Trust didn't disappear. It went sideways." "The funnel didn't break. It folded." Old belief, then the sharper picture, in two short sentences. Once per piece: used twice it becomes a tic.
 - **History as the lens.** Two hundred thousand years, the handshake, the brand as "a promise in a tin", the pit gate. The past explains the present.
 - **The body and the machine.** Recurring theme: technology moves fast, human nature doesn't. "Human nature hasn't had a software update in two hundred thousand."
-- **Naming the room.** "Right now, in meetings happening this week, someone is presenting a dashboard." He puts the reader in the meeting where the mistake gets made.
+- **Naming the room.** "Right now, in meetings happening this week, someone is presenting a dashboard." He puts the reader in the meeting where the mistake gets made. The Desk invents a new room for each piece and never reuses this line.
 - **Dry wit through specifics.** "Your B2B procurement platform has a community, and it's on Slack, and there are 14 people in it, and 11 of them work at the company."
 - **Cited thinkers, used lightly.** One line each, to lend a frame, then back to his argument. For example:
   - **Rachel Botsman**, the Oxford trust researcher (*Who Can You Trust?*, 2017), on trust moving from institutions to strangers and platforms;
@@ -58,7 +58,14 @@ The scene is ordinary, physical and specific (a gasket, a number plate, four poi
 
 - No unexplained names, ideas or jargon. Every person, model or term is introduced the first time it appears, so the piece can be read alone by someone who has never heard of them.
 
-- No em dashes. No "It's not X, it's Y" or "Not X, but Y".
+- No em dashes.
+- No contrast framing in any form: "It's not X, it's Y", "That is not X. That is Y", "X isn't A. It's B", "Not X, but Y". State the positive claim once.
+- No signposting that announces a point instead of making it ("Here is the part nobody wants to hear", "Here's the thing", "The truth is", "Then the number that matters").
+- No more than one list of three in a piece, and no image explained straight after it is given.
+- No invented first-person experience. A confession or a memory appears only if Alex supplied it in his reaction.
+- No research tags in the prose ([Sourced], [Model]). Sources go in notes or in Go deeper.
+- No glossing of household names (ChatGPT, Google, Amazon), and no "on my site The Last Animal": the piece is published there, so earlier essays are named by title only.
+- No reuse of a sentence, scene or image from the examples on this page.
 - No consultant filler (leverage, unlock, navigate, landscape, ecosystem, game-changer, in today's fast-paced world).
 - No rhetorical questions stacked in a row. One question, then an answer.
 - No hype words (revolutionary, unprecedented, mind-blowing) and no exclamation marks.
@@ -68,9 +75,15 @@ The scene is ordinary, physical and specific (a gasket, a number plate, four poi
 
 These are his, and they work, but they wear out when repeated:
 
-- "Here is the part nobody wants to hear" / "Here's the thing that stops me cold": once per piece at most.
+- "Here is the part nobody wants to hear" / "Here's the thing that stops me cold": this is signposting, so the Desk never writes it. Alex can add one by hand, once per piece at most.
 - "The question isn't X. The question is Y.": he uses it in endings, but it sits very close to the banned "Not X, but Y". The Desk avoids it; Alex can add it back by hand.
 - Section breaks with `---` in long essays: fine in essays, never in short formats.
+
+## The house lint
+
+The banned list is checked in code, not left to the model. After the Desk's editor pass, a lint in Owl Farm's `generateDraft` function looks for contrast framing, signposting, glossed household names, "on my site", research tags, old `thelastanimal.base44.app` links, consultant words, exclamation marks, more than one list of three, lines lifted from the examples on this page, and an opening that repeats a recent draft. Quoted material is skipped, because it is someone else's sentence. Anything found goes back to the model for one repair pass; what is left shows as a warning on the draft. First-person claims are flagged for Alex to confirm and are never auto-fixed.
+
+It was added on 18 November 2026 after a review of two published pieces, "The White-Collar Coalfield" and "Nobody Came to Shop". The full rule list is in [`craft-playbook.md`](craft-playbook.md).
 
 ## Go deeper
 
